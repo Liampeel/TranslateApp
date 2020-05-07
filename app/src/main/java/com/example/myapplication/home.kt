@@ -14,15 +14,11 @@ class home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
 
-
-
         process_btn.setOnClickListener {
             // Handler code here.
             val str: String = product_info.text.toString()
             product_output.text = str
         }
-
-
     }
 
 
