@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.rybalkinsd:kohttp:0.11.1@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.rybalkinsd/kohttp/0.11.1/1f3eb436ad3e77c7e6b91b224404110679bc801e/kohttp-0.11.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.rybalkinsd/kohttp/0.11.1/a0a842afea6de65e2f26439653b4554cfe6f8cea/kohttp-0.11.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.rybalkinsd/kohttp/0.11.1/58d17df407a091a47fcbcdec7d5a8c2374c772dd/kohttp-0.11.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
