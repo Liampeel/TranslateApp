@@ -35,18 +35,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recognize Text" />
+
+        <Button
+            android:id="@+id/goToTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/processImageBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:layout_weight="1"
+            android:text="Translate" />
     </LinearLayout>
 
 
     <EditText
         android:id="@+id/ocrResultEt"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="384dp"
+        android:layout_height="305dp"
         android:layout_below="@+id/actionContainer"
         android:background="@android:color/transparent"
         android:gravity="top"
+        android:hint="Detected text will appear here."
         android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:hint="Detected text will appear here."/>
+        android:padding="10dp" />
+
+
 
 </RelativeLayout>

@@ -15,13 +15,30 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'project.properties'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/INDEX.LIST'
+        exclude("META-INF/*.kotlin_module")
+    }
+
 }
 
 dependencies {
@@ -42,5 +59,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
-}
 
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation('com.google.cloud:google-cloud-translate:1.12.0') {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'com.google.auto.value', module: 'auto-value'
+    }
+    annotationProcessor 'com.google.cloud:google-cloud-translate:1.12.0'
+
+    annotationProcessor 'com.google.auto.value:auto-value:1.3'
+}

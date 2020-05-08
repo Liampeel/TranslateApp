@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -13,11 +14,13 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import kotlinx.android.synthetic.main.activity_ocr.*
+import kotlinx.android.synthetic.main.activity_translate.*
 
 class OCRActivity : AppCompatActivity() {
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
+    lateinit var translateButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,8 @@ class OCRActivity : AppCompatActivity() {
 
         resultEditText = findViewById(R.id.ocrResultEt)
         ocrImage = findViewById(R.id.ocrImageView)
+        translateButton = findViewById(R.id.goToTranslate)
+
 
         //set an onclick listener on the button to trigger the @pickImage() method
         selectImageBtn.setOnClickListener{
@@ -34,6 +39,14 @@ class OCRActivity : AppCompatActivity() {
         //set an onclick listener on the button to trigger the @processImage method
         processImageBtn.setOnClickListener{
             processImage(processImageBtn)
+        }
+
+        translateButton.setOnClickListener{
+
+            val translate = resultEditText.text.toString().trim()
+            val intent = Intent(this, TranslateActivity::class.java)
+            intent.putExtra("translate", translate)
+            startActivity(intent)
         }
 
     }
