@@ -25,33 +25,30 @@ class home : AppCompatActivity(){
         process_btn.setOnClickListener {
             val str: String = usr_input.text.toString()
             product_output.text = str
-//            getStuff()
-//            run()
 
+            var request = Request.Builder().url(url).build()
 
+            var test = ""
 
-            val thread = Thread(Runnable {
-                val request = Request.Builder()
-                    .url(url)
-                    .get()
-                    .build()
-
-                val response = client.newCall(request).execute()
-                val jsonDataString = response.body.toString()
-
-                val json = JSONObject(jsonDataString)
-                if (!response.isSuccessful) {
-                    val errors = json.getJSONArray("errors").join(", ")
-                    throw Exception(errors)
+            client.newCall(request).enqueue(object: Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                   e.printStackTrace()
                 }
-                val rawUrl = json.getJSONObject("urls").getString("raw")
 
-                println(rawUrl)
+                override fun onResponse(call: Call, response: Response) {
+                    if(response.isSuccessful) {
+                        val myResponse = response.body.toString()
 
+                        this@home.runOnUiThread(Runnable {
+                            product_output.text = myResponse
+                            test = myResponse
+                        })
+                    }
+                }
             })
-            thread.start()
 
 
+            println(test)
             println("TEST")
 
         }
