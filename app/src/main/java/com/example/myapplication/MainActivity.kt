@@ -3,11 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
             btn_login.setOnClickListener {
                 // Handler code here.
-                val intent = Intent(this, home::class.java)
+                val intent = Intent(this, Home::class.java)
                 startActivity(intent);
             }
 //            val email = editTextEmail.text.toString().trim()
