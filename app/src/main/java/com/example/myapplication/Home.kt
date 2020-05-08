@@ -18,11 +18,9 @@ class Home : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
         process_btn.setOnClickListener {
-            val str: String = usr_input.text.toString()
-            product_output.text = str
-
+            val input: String = usr_input.text.toString()
+//            product_output.text = input
 
             val request = Request.Builder().url(url)
                 .addHeader("Content-Type", "application/json")
@@ -48,11 +46,6 @@ class Home : AppCompatActivity(){
         }
 
     }
-
-
-
-
-
 }
 
 
