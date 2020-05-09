@@ -95,13 +95,13 @@ class OCRActivity : AppCompatActivity() {
             System.out.println(which == 0)
             System.out.println(which == 1)
             if (which == 0) {
-//                if (!checkCameraPermission()) {
-//                    System.out.println("Camera permis")
-//                    requestCameraPermission()
-////
-//                } else {
-//                    pickCamera()
-//                }
+                if (!checkCameraPermission()) {
+                    System.out.println("Camera permis")
+                    requestCameraPermission()
+//
+                } else {
+                    pickCamera()
+                }
 
             }
             if (which == 1) {
