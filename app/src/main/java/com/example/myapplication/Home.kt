@@ -29,34 +29,27 @@ class Home : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            val token = "Bearer v^1.1#i^1#f^0#r^0#p^3#I^3#t^H4sIAAAAAAAAAOVYa2wUVRTu9kUKVk0gVLDAOl" +
-                    "BRyuzOY3d2Z8JuXPqwW/qi2xaoMXX2zp126OzMMHe27ZKQloL8gAj+ExAiCYlBjeADlFfENEqCISQoWh" +
-                    "IIalKNghhjBAmRxDvbB9ualj6INnH/bObc8/q+c86dO5fqys5Ztq1s25+5jhnpB7qornSHg55F5WRnFT6" +
-                    "akT4/K41KUXAc6FrSldmd8dMKJMZUQ6iFyNA1BJ0dMVVDQlIYIOKmJugiUpCgiTGIBAsIkVBlhcC4KMEwdU" +
-                    "sHuko4w8UBgqOgz0tJIpQBC3gPwFJt0GedHiBoL5Q5Hyd5OcD5ol4WryMUh2ENWaJmBQiGYiiS8pIUX0dTA" +
-                    "uMRWNblo7lGwtkATaToGlZxUUQwma6QtDVTch07VREhaFrYCREMh0oj1aFwcUlV3Qp3iq/gAA8RS7TiaPhT" +
-                    "kS5BZ4OoxuHYYVBSW4jEAYAIEe5gf4ThToXQYDKTSD9JNUNBkfKJfg+QWBqz+lCoLNXNmGiNnYctUSRSTqoKUL" +
-                    "MUK/EgRjEb0fUQWANPVdhFuNhp/62Oi6oiK9AMECUrQ+vqIyW1hDNSU2PqbYoEpSRS2uPhvazP6yeCCNAkzQ1E6" +
-                    "HczwO+IEEW6Jik2W8hZpVsrIU4XjiSFTiEFK1Vr1WZItuxUUvWYQfIof6Ndzf7yxa0WzS4ojGEGnMnHB1M/2Av3q" +
-                    "/+wuoH1iR7gYTyQYfyynxdH6wZ71ifSEUG7KKGaGredC4yKCTImmq3QMlQRQBJgeuMxaCqSwHplhvXLkJQ4XiY9" +
-                    "vCyTUa/EkbQMIQVhNAp4//+iMSzLVKJxCw41x8iFJLoAYZMpKKIsWHor1OoSBiRGaiY3m4GO6EABosWyDMHtbm9v" +
-                    "d7WzLt1sdjMURbvXVlZEQAuM4aIP6ioPViaVZG8AiK2QIlg4gQDRgVsPB9eaiWBtSWltSaSsqa56VUnVYNsOyyw4Uj" +
-                    "oK0ggEJrSmFzpF7tAMmo5Heamc8zKoMlEY8QMVNKNmuaFuI93eIlfVbzAqxOrmwNTAA92ANbqqgMS/zYA962OzwJpSj" +
-                    "WhaiQhUVSyYElBkA51eRbbtEXYgGorLHjcX0GNuXcR7tS1qSmbsHI+SG2GCXP07H/bsMqEo6ZqamIzxBGwUrQ3vH7q" +
-                    "ZmEzAIeMJ2IgA6HHNmky4AdMJWMhxVVZU1d4iJxMwxXwiaWqimrAUgCYVUtHsbkMTMDHERBKgpCDDnpVxWWIZfqkC6M" +
-                    "IvuuTxaijZUSfUnvXxTGnIMMKxWNwSoyoMS9NrXD004+eoKW1CNrxphgqfNzTdDElkpR5VVBgyyJraYtIPvB6vzPI86Q" +
-                    "MQAsj7poS7slmZZrBpnvf5eMbvx2bclLAVw7bpVlPaBzwiLfFklKNZ0oOPoaTfw7EkJ3ujFPBDIEPvlDAXqQqe/FEOhZm" +
-                    "b+/5D7GU6sqA0XnQjBCmH4n98CLmHX0EE05I/uttxjOp2vJ/ucFBuqoBeTD2VnVGfmfHIfKRYeIcUZRdSmjX8ZW1CV" +
-                    "ytMGKJipmc7jHrxekHKpceBF6knhq49cjLoWSl3IFT+/ZUs+rG8XEyIl+JpivGwbCO1+P5qJj03c87Rk5fvMW+fvnhm" +
-                    "jXy7/a5v45btfcup3CElhyMrLbPbkVZ344u+VZ8vPfjptY8Wvfv9zjntr93Zxl7qfWZewaaX5izljv961vHz/syL+eapH" +
-                    "W/WPOsu+mNh7PKy089dPz87Z03f/rQCsnNrz8tNJxZ849hTPn/TB/xX926dezLn7uIbrWdeyb5zogpcaS7c90nG0pmh4/" +
-                    "lXy/eVh9+ie9euuDtz0bxd5zpXvbfu2vmPc9/IZz/MbbrQ03tky6uHELNg7y9HjsV/+P12/c09r3euPLS75zhZCnvOfteQ9" +
-                    "9eM/AVPp3+pNq6+Ovvg81mR35Ysj+6/Q3dWBA+37H7n8b5v9xpbC2O7LvV2VnCbd29ccmX73As3jVM/vvD1+rTPTK7jQvGtv" +
-                    "J2H2hYe3bHhZFNZnh473F++vwGuj1QkjhIAAA=="
+
+           val otherToken = "Bearer v^1.1#i^1#f^0#I^3#p^3#r^0#t^H4sIAAAAAAAAAOVYa2wUVRTu9oUILYaI2KJ2nYpGcXbvzO7M7kzYjQst6WrfuwWhErg7c2c7dnZmmDvbdvGR0ghqwERIMAIhacQfRk2wWh8JRn6YiC" +
+                   "QoCQaVaJqIGEASVCSRYIje2T7Y1rT0QbSJ+2cz557X991zzty5oLt47kPbarb9UeKak9/bDbrzXS5mHphbXLSstCC/vCgP5Ci4ervv6y7sKTi3HMOUZorNCJuGjpG7K6XpWMwKQ1Ta0kUDYhWLOkwhLNqSGIvU" +
+                   "1YqsB4imZdiGZGiUO1oVogSIFOSDCgSKIAR4mUj1YZ9xI0RxMuL8AT+CCAb9AuDJOsZpFNWxDXU7RLGABTTgaCDEGZ8IeJHlPQwXXEe5VyMLq4ZOVDyACmfTFbO2Vk6uE6cKMUaWTZxQ4WhkVawhEq2qro8v9+" +
+                   "b4Cg/xELOhncajn1YaMnKvhloaTRwGZ7XFWFqSEMaUNzwYYbRTMTKczDTSz1Ltg4hlAM/7WDYRAEHhplC5yrBS0J44D0eiyrSSVRWRbqt25kaMEjYSTyLJHnqqJy6iVW7nrykNNVVRkRWiqldE1rbEqpspd6y" +
+                   "x0TI6VBnJDlKW8fsFzhfgglQYSwzN8EMRBt0M8TsmxEpDl1WHLeyuN+wViKSLRpPCilwOKUSpQW+wIortpJKrxw2T5yd63uHtS9tturOhKEUYcGcfb0z9cC1c3/2bVQ0sDEDIAYnhgwwny+M2ltPrU6mIsLMp" +
+                   "kcZGr5MLSsAMnYJWO7JNDUqIlgi96RSyVFn0cQrrCyqIlnlBof2CotAJTuZpRkEIIJRISELwf1EYtm2pibSNRopj7EIWXYhyyBRVqIi20Y70eMZE1FjN7LAZqoguHKLabNsUvd7Ozk5Pp89jWEkvCwDjfbyuN" +
+                   "ia1oRSkRnTVGyvTarY2JESssCraJIEQ1UVKjwTXk1S4uXpVc3WsZkO84bHq+uGyHZVZeKx0HKQxJFnInl3oVKVLNxkmnRDkR3mOxXWZZbGgpElJnFRWxzcznW1KfcsmsxY2JEMzAy8ZJmo0NFXK/NsMOL0+M" +
+                   "Qs+S26Elp2JIU0jghkBxQ7Q2bXJjj0mDqCpepx280hGymtAMqsd0YZsxu7JKHkxIcgzOPmIZ4+FoGzoWmY6xlOwUfUOMj8MKzOdgCPGU7CBkmSkdXs64YZMp2ChpDVF1TRnRE4nYI75VNLUoZaxVQlPK6SqO" +
+                   "9WGp2BiwkwWoKxi0+mVSVkSGXmpSshDXnTZ49VIsuN2qNPrk+nSiGlGU6m0DRMaisqzq139DBvkwYyGkANvlqEi5w3dsCIyXWckVA1FTLqxuYoOSpyfU3yCQAckhCQkBGaEuy6pzjLYDPn+CwhsMEjM+Blh" +
+                   "q0Ids21PmYDkh4ws0Ame8dF+cgylg37eR/MKlwBSEEkK4maEeaWmks4f51BYuOXMf4i9xsA2kieLbowg51D8jw8h7+griHBe9sf0uN4HPa6+fJcLeMFSphLcW1zQUlgwvxyrNpmQUPFgNamTL2sLedpRxoSq" +
+                   "lV/sMlvgz0tzLj1614M7R6495hYw83LuQMBd11eKmAWLSwghHBAYH+BZfh2ovL5ayNxRePs991d82fz2F6WhsuJNwTX80r3zumRQMqLkchXlFfa48h7ur9i1/zhb3LS9/zhvnWnid2wv7Wjqdi+6fFo4qv" +
+                   "Gr77Qf/W11r4Tj6ztazIuRXqPtj94qCE68N6BFcljDzxz9lp/2e4ll05cuPviZrO9fGDnwKFrtZ+8s0f89PBAIF0dCb25sci8/IvOBdbvUha3Woc3BC6vfWtvT8nLl57aUloX2AaTCz7I2/zG2ZY94eaPd25" +
+                   "ouL7V9orLy4s29f6biD009c1ry+hTyYvnLy1OXNkcev5ir5lR5ILC54+9tfv4v6Vi573CzsGbtl3sGJnCfvRqYMba9u/bfnzWevFsh+uvdQwJ/Rj5flXz+2e89mONeVfHfz18wOnvnOfjs/fetuHZmXbb76t" +
+                   "V7557uiVgcHt+xtD1ZTCjhIAAA=="
+
+
 
             val request = Request.Builder().url(url+input)
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", token)
+                .addHeader("Authorization", otherToken)
                 .build()
 
             client.newCall(request).enqueue(object : Callback {
@@ -65,20 +58,36 @@ class Home : AppCompatActivity(){
                     val jsonBody = JSONObject(body.toString())
 
 
-                    this@Home.runOnUiThread(Runnable {
+                    if (response.isSuccessful) {
+                        this@Home.runOnUiThread(Runnable {
 //                        product_output.text = body
 //                        println(body)
-                        val output = jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getString("title").toString() + "\n\n" +
-                                jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getJSONObject("price").getString("value") +
-                                 " " +
-                                jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getJSONObject("price").getString("currency")
+                            val output = jsonBody.getJSONArray("itemSummaries").getJSONObject(1)
+                                .getString("title").toString() + "\n\n" +
+                                    jsonBody.getJSONArray("itemSummaries").getJSONObject(1)
+                                        .getJSONObject("price").getString("value") +
+                                    " " +
+                                    jsonBody.getJSONArray("itemSummaries").getJSONObject(1)
+                                        .getJSONObject("price").getString("currency")
 
 
-                        product_output.text = output
-                        println(jsonBody)
+                            product_output.text = output
+
+
+                        println(jsonBody.getJSONArray("itemSummaries").length())
+
+
+                            println(jsonBody)
                         })
+                    }
+
+                    else {
+                        println(response.networkResponse)
+                    }
 
                 }
+
+
 
                 override fun onFailure(call: Call, e: IOException) {
                     println("Error")
