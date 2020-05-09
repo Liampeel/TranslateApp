@@ -15,19 +15,21 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from queries.serializers import UserSerializer
 from rest_framework import generics
+from rest_framework import permissions
 # Create your views here.
 
 
 class QueryList(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
-
+    permission_classes = [permissions.IsAuthenticated]
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 
 class QueryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Query.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuerySerializer
 
 class UserList(generics.ListAPIView):
