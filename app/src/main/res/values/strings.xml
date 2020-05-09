@@ -2,6 +2,8 @@
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
     <string name="forgotten_password">Forgotten Password?</string>
+    <string name="no_connection">No internet connection! Cannot be translated!</string>
+
     <string name="second_page">Second Page</string>
     <string name="title_activity_login">Test</string>
     <string name="prompt_email">Email</string>

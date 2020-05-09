@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/ocrImageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:id="@+id/actionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ocrImageView"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/selectImageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Image"
+            android:layout_gravity="left"
+            android:layout_weight="1"/>
+        <Button
+
+            android:id="@+id/processImageBtn"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recognize Text" />
+
+        <Button
+            android:id="@+id/goToTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/processImageBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:layout_weight="1"
+            android:text="Translate" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/ocrResultEt"
+        android:layout_width="384dp"
+        android:layout_height="305dp"
+        android:layout_below="@+id/actionContainer"
+        android:background="@android:color/transparent"
+        android:gravity="top"
+        android:hint="Detected text will appear here."
+        android:inputType="textMultiLine"
+        android:padding="10dp" />
+
+
+
+</RelativeLayout>
