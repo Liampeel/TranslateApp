@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from snippets.models import Query
+from queries.models import Query
 
-class QuerySerializer(serializers.serializer):
+class QuerySerializer(serializers.Serializer):
     class Meta:
         model = Query
         fields = ['id', 'user_query']
