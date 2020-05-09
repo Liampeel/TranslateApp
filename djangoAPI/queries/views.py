@@ -12,7 +12,9 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
-
+from django.contrib.auth.models import User
+from queries.serializers import UserSerializer
+from rest_framework import generics
 # Create your views here.
 
 
@@ -57,3 +59,12 @@ def query_detail(request, pk, format=None):
     elif request.method == 'DELETE':
         query.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
