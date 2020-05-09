@@ -2,9 +2,10 @@ from rest_framework import serializers
 from queries.models import Query
 
 class QuerySerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Query
-        fields = ['id', 'user_query']
+        fields = ['id', 'owner', 'user_query']
 
 
 class UserSerializer(serializers.ModelSerializer):
