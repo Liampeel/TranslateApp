@@ -86,7 +86,7 @@ class OCRActivity : AppCompatActivity() {
 
 
     private fun showImageImportDialog() {
-        val items: Array<String> = arrayOf("Camera", " Gallery")
+        val items: Array<String> = arrayOf("Gallery", " Camera")
         val dialog =
             AlertDialog.Builder(this)
         //set title
@@ -95,24 +95,18 @@ class OCRActivity : AppCompatActivity() {
             System.out.println(which == 0)
             System.out.println(which == 1)
             if (which == 0) {
-                if (!checkCameraPermission()) {
-                    System.out.println("Camera permis")
-                    requestCameraPermission()
-//
-                } else {
-                    pickCamera()
-                }
-
-            }
-            if (which == 1) {
-                if (!checkStoragePermission())
-                    
+                if (!checkStoragePermission()) {
                     requestStoragePermission()
-
                 } else {
                     pickImage()
+                }
             }
-
+            else if (which == 1) {
+                if (!checkCameraPermission())
+                    requestCameraPermission()
+                } else {
+                    pickCamera()
+            }
         }
         dialog.create().show()
     }
