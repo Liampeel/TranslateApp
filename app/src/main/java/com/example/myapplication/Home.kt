@@ -22,7 +22,6 @@ class Home : AppCompatActivity(){
 
         process_btn.setOnClickListener {
             val input: String = usr_input.text.toString()
-//            product_output.text = input
 
             if(input.isEmpty()) {
                 usr_input.error = "Item is required"
@@ -69,8 +68,13 @@ class Home : AppCompatActivity(){
                     this@Home.runOnUiThread(Runnable {
 //                        product_output.text = body
 //                        println(body)
-                        product_output.text = jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getString("title")
-//                        println(jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getString("title"))
+                        val output = jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getString("title").toString() + "\n\n" +
+                                jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getJSONObject("price").getString("value") +
+                                 " " +
+                                jsonBody.getJSONArray("itemSummaries").getJSONObject(1).getJSONObject("price").getString("currency")
+
+
+                        product_output.text = output
                         println(jsonBody)
                         })
 

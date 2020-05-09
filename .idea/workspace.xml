@@ -224,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588954488472</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Connected to eBay search API">
+      <created>1589024455324</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589024455324</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView">
@@ -260,7 +267,8 @@
     <MESSAGE value="Added Log in structure and UI amendments" />
     <MESSAGE value="Created Connection to API endpoint. Awaiting access token..." />
     <MESSAGE value="UI clean up for home activity" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI clean up for home activity" />
+    <MESSAGE value="Connected to eBay search API" />
+    <option name="LAST_COMMIT_MESSAGE" value="Connected to eBay search API" />
   </component>
   <component name="masterDetails">
     <states>
