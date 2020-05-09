@@ -87,8 +87,6 @@ class Home : AppCompatActivity(){
 
                 }
 
-
-
                 override fun onFailure(call: Call, e: IOException) {
                     println("Error")
                     e.printStackTrace()

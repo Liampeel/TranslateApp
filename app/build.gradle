@@ -44,6 +44,7 @@ android {
         exclude("META-INF/*.kotlin_module")
     }
 
+
 }
 
 
@@ -68,7 +69,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation('com.google.cloud:google-cloud-translate:1.12.0') {
         exclude group: 'org.apache.httpcomponents'

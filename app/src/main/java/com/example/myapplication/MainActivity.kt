@@ -81,27 +81,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-            val email = editTextEmail.text.toString().trim()
-            val password = editTextPassword.text.toString().trim()
-            val name = editTextName.text.toString().trim()
-
-            if(email.isEmpty()) {
-                editTextEmail.error = "Email required"
-                editTextEmail.requestFocus()
-                return@setOnClickListener
-            }
-
-            if(password.isEmpty()) {
-                editTextPassword.error = "Email required"
-                editTextPassword.requestFocus()
-                return@setOnClickListener
-            }
-
-            if(email.isEmpty()){
-                editTextName.error = "Email required"
-                editTextName.requestFocus()
-                return@setOnClickListener
-            }
+//            val email = editTextEmail.text.toString().trim()
+//            val password = editTextPassword.text.toString().trim()
+//            val name = editTextName.text.toString().trim()
+//
+//            if(email.isEmpty()) {
+//                editTextEmail.error = "Email required"
+//                editTextEmail.requestFocus()
+//                return@setOnClickListener
+//            }
+//
+//            if(password.isEmpty()) {
+//                editTextPassword.error = "Email required"
+//                editTextPassword.requestFocus()
+//                return@setOnClickListener
+//            }
+//
+//            if(email.isEmpty()){
+//                editTextName.error = "Email required"
+//                editTextName.requestFocus()
+//                return@setOnClickListener
+//            }
 
 
 
