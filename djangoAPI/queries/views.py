@@ -34,8 +34,9 @@ def api_root(request, format=None):
     })
 
 
-@api_view(['POST'])
+@csrf_exempt
 def create_user(request, format=None):
+    print("Non authorised")
     if request.method == 'POST':
         if request.body is not None:
             body_unicode = request.body.decode('utf-8')
@@ -49,26 +50,28 @@ def create_user(request, format=None):
 
 
             user = User.objects.create_user(username=username, email=email, password=password)
-            token = Token.objects.create(user=user)
-            print(token.key)
+            #token = Token.objects.create(user=user)
+            #print(token.key)
             user.save()
-            return_data = {"username": username, "email": email, "token": token.key}
+            return_data = {"username": username, "email": email, "Unique ID":user.id}#, "token": token.key}
             json_return_data_dump = json.dumps(return_data)
             json_return_data = json.loads(json_return_data_dump)
-            return Response(json_return_data)
+            return JsonResponse(return_data)
+
         else:
             return HttpResponse('Invalid request', status=400)
     else:
         return HttpResponse('Invalid request', status=400)
 
-@api_view(['GET'])
 def logout_request(request):
-    logout(request)
-    print(request, "Logged out successfully!")
-    return HttpResponse("Logged out successfully")
+    if request.user.is_authenticated:
+        logout(request)
+        print(request, "Logged out successfully!")
+        return HttpResponse("Logged out successfully")
+    else:
+        return HttpResponse("Need to be logged in to log out")
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@csrf_exempt
 def user_login(request):
     if request.method == 'POST':
         if request.body is not None:
@@ -79,8 +82,10 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
+                    token = Token.objects.create(user=user)
                     login(request, user)
-                    return HttpResponse("Succesfully logged in")
+                    return_data = {"token": token.key}
+                    return JsonResponse(return_data)
                 else:
                     return HttpResponse("Your account was inactive.")
             else:

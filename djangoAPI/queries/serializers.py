@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from queries.models import Query
-
+from django.contrib.auth.models import User
 
 class RegistrationSerializer:
     class Meta:
@@ -14,7 +14,7 @@ class QuerySerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    queries = serializers.PrimaryKeyRelatedField(many=True, queryset=Query.objects.all())
-
-    class meta:
+    queries = QuerySerializer(many=True, read_only=True)
+    class Meta:
+        model = User
         fields = ['id', 'username', 'queries']
