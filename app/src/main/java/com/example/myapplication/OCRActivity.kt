@@ -95,20 +95,18 @@ class OCRActivity : AppCompatActivity() {
             System.out.println(which == 0)
             System.out.println(which == 1)
             if (which == 0) {
-                if (!checkCameraPermission()) {
-                    System.out.println("Camera permis")
-                    System.out.println(checkCameraPermission())
-                    requestCameraPermission()
-//
-                } else {
-                    pickCamera()
-                }
+//                if (!checkCameraPermission()) {
+//                    System.out.println("Camera permis")
+//                    requestCameraPermission()
+////
+//                } else {
+//                    pickCamera()
+//                }
 
             }
             if (which == 1) {
                 if (!checkStoragePermission())
-                    System.out.println("storage permis")
-                    System.out.println(checkStoragePermission())
+                    
                     requestStoragePermission()
 
                 } else {
