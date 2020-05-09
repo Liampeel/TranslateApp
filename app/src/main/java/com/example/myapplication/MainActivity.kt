@@ -5,6 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Callback
+import retrofit2.Call
+import retrofit2.Response
+import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,9 +81,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+            val email = editTextEmail.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
+            val name = editTextName.text.toString().trim()
 
+            if(email.isEmpty()) {
+                editTextEmail.error = "Email required"
+                editTextEmail.requestFocus()
+                return@setOnClickListener
+            }
 
+            if(password.isEmpty()) {
+                editTextPassword.error = "Email required"
+                editTextPassword.requestFocus()
+                return@setOnClickListener
+            }
 
+            if(email.isEmpty()){
+                editTextName.error = "Email required"
+                editTextName.requestFocus()
+                return@setOnClickListener
+            }
 
 
 
