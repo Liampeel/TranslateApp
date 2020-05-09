@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
 
             btn_login.setOnClickListener {
-                // Handler code here.
+
                 val intent = Intent(this, Home::class.java)
                 startActivity(intent);
             }
