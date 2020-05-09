@@ -22,6 +22,9 @@ class QueryList(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class QueryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Query.objects.all()
