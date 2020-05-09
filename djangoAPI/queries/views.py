@@ -1,12 +1,15 @@
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 from queries.models import Query
 from queries.serializers import QuerySerializer
 # Create your views here.
 
-@csrf_exempt
+@api_view(['GET', 'POST'])
 def query_list(request):
 
     if request.method == 'GET':
@@ -22,7 +25,7 @@ def query_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def query_detail(request, pk):
     """
     Retrieve, or delete query.
