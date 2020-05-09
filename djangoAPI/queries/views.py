@@ -7,7 +7,14 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from queries.models import Query
 from queries.serializers import QuerySerializer
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import render, redirect
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+
 # Create your views here.
+
 
 @api_view(['GET', 'POST'])
 def query_list(request, fomat=None):
