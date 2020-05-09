@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from queries.models import Query
 
+
+class RegistrationSerializer:
+    class Meta:
+        fields = ['username', 'email', 'token']
+
 class QuerySerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
