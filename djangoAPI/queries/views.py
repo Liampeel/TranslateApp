@@ -65,7 +65,9 @@ def create_user(request, format=None):
 
 def logout_request(request):
     if request.user.is_authenticated:
+        request.user.auth_token.delete()
         logout(request)
+
         print(request, "Logged out successfully!")
         return HttpResponse("Logged out successfully")
     else:
@@ -84,7 +86,7 @@ def user_login(request):
                 if user.is_active:
                     token = Token.objects.create(user=user)
                     login(request, user)
-                    return_data = {"token": token.key}
+                    return_data = {"token": token.key, "unique_ID": user.id}
                     return JsonResponse(return_data)
                 else:
                     return HttpResponse("Your account was inactive.")
