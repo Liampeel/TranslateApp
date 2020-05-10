@@ -44,11 +44,19 @@ android {
         exclude("META-INF/*.kotlin_module")
     }
 
+    configurations {
+        implementation.exclude module: 'proto-google-common-protos'
+        implementation.exclude module: 'protolite-well-known-types'
+        implementation.exclude module: 'protobuf-lite'
 
+
+    }
 }
 
 
 dependencies {
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -66,8 +74,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
-
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
+    implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
+    implementation 'com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.7'
 
     implementation 'androidx.multidex:multidex:2.0.0'
 

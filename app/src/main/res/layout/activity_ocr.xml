@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
     android:orientation="vertical"
     android:padding="15dp">
 
     <ImageView
         android:id="@+id/ocrImageView"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"/>
 
@@ -22,14 +23,18 @@
 
         <Button
             android:id="@+id/selectImageBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="113dp"
             android:layout_height="wrap_content"
-            android:text="Select Image"
             android:layout_gravity="left"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:text="Select Image"
+            android:textColor="@color/login_form_details" />
         <Button
 
             android:id="@+id/processImageBtn"
+            android:background="@drawable/button_background"
+            android:textColor="@color/login_form_details"
             android:layout_weight="1"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
@@ -38,6 +43,8 @@
 
         <Button
             android:id="@+id/goToTranslate"
+            android:background="@drawable/button_background"
+            android:textColor="@color/login_form_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/processImageBtn"
@@ -54,12 +61,27 @@
         android:layout_width="384dp"
         android:layout_height="305dp"
         android:layout_below="@+id/actionContainer"
+        android:layout_marginTop="43dp"
         android:background="@android:color/transparent"
         android:gravity="top"
+        android:textColorHint="@color/login_form_details"
         android:hint="Detected text will appear here."
         android:inputType="textMultiLine"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="@color/login_form_details" />
 
+    <TextView
+        android:id="@+id/detected_language"
+        android:textColor="@color/login_form_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ocrResultEt"
+        android:layout_alignRight="@+id/ocrResultEt"
+        android:layout_alignBottom="@+id/ocrResultEt"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:layout_marginBottom="162dp"
+        android:text="" />
 
 
 </RelativeLayout>

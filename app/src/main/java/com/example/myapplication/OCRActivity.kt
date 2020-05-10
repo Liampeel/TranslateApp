@@ -2,7 +2,7 @@ package com.example.myapplication
 
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,13 +15,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import kotlinx.android.synthetic.main.activity_ocr.*
+import java.lang.Exception
 
 
 class OCRActivity : AppCompatActivity() {
@@ -84,8 +92,8 @@ class OCRActivity : AppCompatActivity() {
         //set title
         dialog.setTitle("Select Image")
         dialog.setItems(items) { dialog, which ->
-            System.out.println(which == 0)
-            System.out.println(which == 1)
+            println(which == 0)
+            println(which == 1)
             if (which == 0) {
                 if (!checkStoragePermission()) {
                     requestStoragePermission()
@@ -105,18 +113,18 @@ class OCRActivity : AppCompatActivity() {
 
 
     private fun pickCamera() {
-        System.out.println("Camera")
+        println("Camera")
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
                 startActivityForResult(takePictureIntent, IMAGE_PICK_CAMERA_CODE)
-                System.out.println("pickCamera")
+                println("pickCamera")
             }
         }
     }
 
 
     fun pickImage() {
-        System.out.println("Image")
+        println("Image")
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -145,10 +153,12 @@ class OCRActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun processImage(v: View) {
         if (ocrImage.drawable != null) {
             resultEditText.setText("")
             v.isEnabled = false
+
             val bitmap = (ocrImage.drawable as BitmapDrawable).bitmap
             val image = FirebaseVisionImage.fromBitmap(bitmap)
             val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
@@ -158,10 +168,11 @@ class OCRActivity : AppCompatActivity() {
                     v.isEnabled = true
                     processResultText(firebaseVisionText)
                 }
-                .addOnFailureListener {
+                .addOnFailureListener {e ->
                     v.isEnabled = true
-                    resultEditText.setText("Failed")
+                    resultEditText.setText(e.toString())
                 }
+
         } else {
             Toast.makeText(this, "Select an Image First", Toast.LENGTH_LONG).show()
         }
@@ -169,6 +180,7 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun processResultText(resultText: FirebaseVisionText) {
         if (resultText.textBlocks.size == 0) {
             resultEditText.setText("No Text Found")
@@ -178,6 +190,22 @@ class OCRActivity : AppCompatActivity() {
             val blockText = block.text
             resultEditText.append(blockText + "\n")
         }
+
+        val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
+
+        languageIdentifier.identifyLanguage(resultText.toString())
+            .addOnSuccessListener { lang ->
+                if (lang !== "und") {
+                    detected_language.text = "Language detected = $lang"
+                    println("Language = $lang")
+                } else {
+                    println("Can't detect language")
+                }
+            }
+            .addOnFailureListener { notWork ->
+                println(notWork.printStackTrace())
+            }
+
     }
 
 
