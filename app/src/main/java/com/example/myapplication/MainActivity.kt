@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -11,6 +12,9 @@ import retrofit2.Response
 import android.widget.Toast
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.Models.DefaultResponse
+import kotlinx.android.synthetic.main.activity_main.editTextEmail
+import kotlinx.android.synthetic.main.activity_main.editTextPassword
+import kotlinx.android.synthetic.main.register_user.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,26 +24,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-//        btn_login.setOnClickListener {
-//            val intent = Intent(this, OCRActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
+        registerPage.setOnClickListener {
+            println("Before val intent")
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            println("in register page listener")
+        }
 
         btn_login.setOnClickListener {
 
             val intent = Intent(this, OCRActivity::class.java)
             startActivity(intent)
 
-            val email = editTextEmail.text.toString().trim()
+            val username = editTextName.text.toString()
             val password = editTextPassword.text.toString().trim()
-            val name = editTextName.text.toString().trim()
 
-            if (email.isEmpty()) {
-                editTextEmail.error = "Email required"
-                editTextEmail.requestFocus()
-                return@setOnClickListener
-            }
+
 
             if (password.isEmpty()) {
                 editTextPassword.error = "Email required"
@@ -47,13 +47,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (email.isEmpty()) {
-                editTextName.error = "Email required"
-                editTextName.requestFocus()
-                return@setOnClickListener
-            }
 
-            RetrofitClient.instance.createUser(email, name, password)
+
+            RetrofitClient.instance.loginUser(username, password)
                 .enqueue(object : Callback<DefaultResponse> {
                     override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                         Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
@@ -73,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(
                                 applicationContext,
-                                response.body()?.message,
+                                "error logging in",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -82,8 +78,13 @@ class MainActivity : AppCompatActivity() {
                 })
         }
     }
-
 }
+
+
+
+
+
+
 
 
 
