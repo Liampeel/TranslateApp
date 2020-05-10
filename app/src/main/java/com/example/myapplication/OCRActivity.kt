@@ -89,55 +89,10 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
-    private fun showImageImportDialog() {
-        val items: Array<String> = arrayOf("Camera", " Gallery")
-        val dialog =
-            AlertDialog.Builder(this)
-        //set title
-        dialog.setTitle("Select Image")
-        dialog.setItems(items) { dialog, which ->
-            println(which == 0)
-            println(which == 1)
-            if (which == 0) {
-                pickCamera()
-            }
-            else if (which == 1) {
-                pickImage()
-            }
-        }
-        dialog.create().show()
-    }
-
-
-
-    private fun pickCamera() {
-
-        if (!checkCameraPermission()) {
-            requestCameraPermission()
-        } else {
-            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(callCameraIntent,IMAGE_PICK_CAMERA_CODE)
-            println("pickCamera")
-        }
-    }
 
 
 
 
-    fun pickImage() {
-        if (!checkStoragePermission()) {
-            requestStoragePermission()
-        } else {
-            println("Image")
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(
-                Intent.createChooser(intent, "Select Picture"),
-                IMAGE_PICK_GALLERY_CODE
-            )
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -147,18 +102,13 @@ class OCRActivity : AppCompatActivity() {
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .start(this)
 
-
-
-
             }
 
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
-                ocrImage.setImageURI(data!!.data)
-                val imageBitmap = data.extras!!.get("data") as Bitmap
-                ocrImage.setImageBitmap(imageBitmap)
-
+                CropImage.activity(data!!.data)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this)
             }
-
         }
             if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
                 val result = CropImage.getActivityResult(data)
@@ -230,6 +180,55 @@ class OCRActivity : AppCompatActivity() {
             }
     }
 
+
+    private fun showImageImportDialog() {
+        val items: Array<String> = arrayOf("Camera", " Gallery")
+        val dialog =
+            AlertDialog.Builder(this)
+        //set title
+        dialog.setTitle("Select Image")
+        dialog.setItems(items) { dialog, which ->
+            println(which == 0)
+            println(which == 1)
+            if (which == 0) {
+                pickCamera()
+            }
+            else if (which == 1) {
+                pickImage()
+            }
+        }
+        dialog.create().show()
+    }
+
+
+    private fun pickCamera() {
+
+        if (!checkCameraPermission()) {
+            requestCameraPermission()
+        } else {
+            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(callCameraIntent,IMAGE_PICK_CAMERA_CODE)
+            println("pickCamera")
+        }
+    }
+
+
+
+
+    fun pickImage() {
+        if (!checkStoragePermission()) {
+            requestStoragePermission()
+        } else {
+            println("Image")
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"),
+                IMAGE_PICK_GALLERY_CODE
+            )
+        }
+    }
 
     private fun requestStoragePermission() {
         System.out.println("Requesting Storage")
