@@ -163,21 +163,6 @@ class OCRActivity : AppCompatActivity() {
             output += "$blockText "
         }
 
-        val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
-
-        println(output)
-        languageIdentifier.identifyLanguage(output)
-            .addOnSuccessListener { lang ->
-                if (lang !== "und") {
-                    detected_language.text = "Language detected = $lang"
-                    println("Language = $lang")
-                } else {
-                    println("Can't detect language")
-                }
-            }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
-            }
     }
 
 

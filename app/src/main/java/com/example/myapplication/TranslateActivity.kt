@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
+import kotlinx.android.synthetic.main.activity_ocr.*
 import kotlinx.android.synthetic.main.activity_translate.*
 import java.io.IOException
 
@@ -19,14 +22,22 @@ class TranslateActivity : AppCompatActivity() {
 
     private var translate: Translate? = null
     lateinit var input: TextView
+    lateinit var langDetected: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_translate)
         input = findViewById(R.id.inputToTranslate)
+        langDetected = findViewById(R.id.langDetected)
+
 
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
+
+        if (translate != null) {
+            detectLang(translate)
+        }
 
         val languageList = arrayListOf<String>()
         languageList.add("fr")
@@ -60,6 +71,26 @@ class TranslateActivity : AppCompatActivity() {
                 translatedTv!!.text = resources.getString(R.string.no_connection)
             }
         }
+    }
+
+
+    private fun detectLang(output: String){
+        val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
+
+        println(output)
+        languageIdentifier.identifyLanguage(output)
+            .addOnSuccessListener { lang ->
+                if (lang !== "und") {
+                    langDetected.text = "Language detected = $lang"
+                    println("Language = $lang")
+                } else {
+                    Toast.makeText(this, "Can't Detect Language", Toast.LENGTH_LONG).show()
+
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+            }
     }
 
     private fun getTranslateService() {
