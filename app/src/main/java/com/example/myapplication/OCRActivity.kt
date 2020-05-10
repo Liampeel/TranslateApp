@@ -62,8 +62,6 @@ class OCRActivity : AppCompatActivity() {
         translateButton = findViewById(R.id.goToTranslate)
 
 
-
-
         //set an onclick listener on the button to trigger the @pickImage() method
         selectImageBtn.setOnClickListener {
             showImageImportDialog()
@@ -100,12 +98,11 @@ class OCRActivity : AppCompatActivity() {
                 } else {
                     pickImage()
                 }
-            }
-            else if (which == 1) {
+            } else if (which == 1) {
                 if (!checkCameraPermission())
                     requestCameraPermission()
-                } else {
-                    pickCamera()
+            } else {
+                pickCamera()
             }
         }
         dialog.create().show()
@@ -168,7 +165,7 @@ class OCRActivity : AppCompatActivity() {
                     v.isEnabled = true
                     processResultText(firebaseVisionText)
                 }
-                .addOnFailureListener {e ->
+                .addOnFailureListener { e ->
                     v.isEnabled = true
                     resultEditText.setText(e.toString())
                 }
@@ -186,14 +183,18 @@ class OCRActivity : AppCompatActivity() {
             resultEditText.setText("No Text Found")
             return
         }
+
+        var output = ""
         for (block in resultText.textBlocks) {
             val blockText = block.text
             resultEditText.append(blockText + "\n")
+            output += "$blockText "
         }
 
         val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
 
-        languageIdentifier.identifyLanguage(resultText.toString())
+        println(output)
+        languageIdentifier.identifyLanguage(output)
             .addOnSuccessListener { lang ->
                 if (lang !== "und") {
                     detected_language.text = "Language detected = $lang"
@@ -202,15 +203,15 @@ class OCRActivity : AppCompatActivity() {
                     println("Can't detect language")
                 }
             }
-            .addOnFailureListener { notWork ->
-                println(notWork.printStackTrace())
+            .addOnFailureListener { e ->
+                e.printStackTrace()
             }
-
     }
 
 
     private fun requestStoragePermission() {
-        ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE
+        ActivityCompat.requestPermissions(
+            this, storagePermission, STORAGE_REQUEST_CODE
         )
     }
 
@@ -221,7 +222,8 @@ class OCRActivity : AppCompatActivity() {
     private fun checkStoragePermission(): Boolean {
         var result1: Boolean = ContextCompat.checkSelfPermission(
             this,
-            storagePermission[0]) == PackageManager.PERMISSION_GRANTED
+            storagePermission[0]
+        ) == PackageManager.PERMISSION_GRANTED
         return result1
 
     }
@@ -246,10 +248,14 @@ class OCRActivity : AppCompatActivity() {
         image to external storage first
         before inserting to image view
          */
-        val result: Boolean = ContextCompat.checkSelfPermission(this,
-            cameraPermission[0]) == PackageManager.PERMISSION_GRANTED
-        val result1: Boolean = ContextCompat.checkSelfPermission(this,
-            cameraPermission[1]) == PackageManager.PERMISSION_GRANTED
+        val result: Boolean = ContextCompat.checkSelfPermission(
+            this,
+            cameraPermission[0]
+        ) == PackageManager.PERMISSION_GRANTED
+        val result1: Boolean = ContextCompat.checkSelfPermission(
+            this,
+            cameraPermission[1]
+        ) == PackageManager.PERMISSION_GRANTED
         return result && result1
     }
 
