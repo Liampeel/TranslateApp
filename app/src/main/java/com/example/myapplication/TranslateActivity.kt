@@ -42,7 +42,6 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-
         val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
             "id", "ja", "ru", "sv", "tr", "th", "vi")
 
@@ -53,7 +52,7 @@ class TranslateActivity : AppCompatActivity() {
         }
 
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, fullLanguageText)
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fullLanguageText)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         language_selector.adapter = aa

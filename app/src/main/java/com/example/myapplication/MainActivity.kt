@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
@@ -19,12 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-//        btn_login.setOnClickListener {
-//            val intent = Intent(this, OCRActivity::class.java)
-//            startActivity(intent)
-//        }
-//    }
+        icon.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ykwqXuMPsoc"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.setPackage("com.google.android.youtube")
+            startActivity(intent)
+        }
 
         btn_login.setOnClickListener {
 
@@ -42,13 +43,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (password.isEmpty()) {
-                editTextPassword.error = "Email required"
+                editTextPassword.error = "Password required"
                 editTextPassword.requestFocus()
                 return@setOnClickListener
             }
 
             if (email.isEmpty()) {
-                editTextName.error = "Email required"
+                editTextName.error = "Name required"
                 editTextName.requestFocus()
                 return@setOnClickListener
             }
