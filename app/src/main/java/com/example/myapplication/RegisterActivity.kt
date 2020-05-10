@@ -32,8 +32,8 @@ class RegisterActivity : AppCompatActivity() {
             val password2 = editTextPasswordConfirm.text.toString().trim()
 
             if (email.isEmpty()) {
-                editTextEmail.error = "Email required"
-                editTextEmail.requestFocus()
+                editTextEmail2.error = "Email required"
+                editTextEmail2.requestFocus()
             }
 
             if (password.isEmpty()) {
@@ -43,8 +43,8 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (username.isEmpty()) {
-                editTextName.error = "Username required"
-                editTextName.requestFocus()
+                editUsername.error = "Username required"
+                editUsername.requestFocus()
             }
 
             if (password != password2) {

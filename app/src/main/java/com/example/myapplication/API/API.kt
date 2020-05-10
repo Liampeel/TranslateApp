@@ -3,6 +3,7 @@ package com.example.myapplication.API
 
 import com.example.myapplication.Models.DefaultResponse
 import com.example.myapplication.Models.createUserData
+import com.example.myapplication.Models.loginData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -13,11 +14,7 @@ interface API {
 
 
     @POST("login/")
-    fun loginUser(
-        @Field("username") username:String,
-        @Field("password") password:String
-
-    ):Call<DefaultResponse>
+    fun loginUser(@Body loginData: loginData):Call<DefaultResponse>
 
     @POST("register/")
     fun createUser(@Body createUserData: createUserData):Call<createUserData>
