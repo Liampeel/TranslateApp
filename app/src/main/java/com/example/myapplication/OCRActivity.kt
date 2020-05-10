@@ -30,6 +30,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import kotlinx.android.synthetic.main.activity_ocr.*
 import java.lang.Exception
+import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
@@ -197,7 +198,8 @@ class OCRActivity : AppCompatActivity() {
         languageIdentifier.identifyLanguage(output)
             .addOnSuccessListener { lang ->
                 if (lang !== "und") {
-                    detected_language.text = "Language detected = $lang"
+                    val displayLanguage = Locale(lang).displayLanguage
+                    detected_language.text = "Language detected = $displayLanguage"
                     println("Language = $lang")
                 } else {
                     println("Can't detect language")

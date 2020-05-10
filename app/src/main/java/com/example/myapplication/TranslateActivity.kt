@@ -1,18 +1,20 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
 import kotlinx.android.synthetic.main.activity_translate.*
 import java.io.IOException
+import java.util.*
 
 class TranslateActivity : AppCompatActivity() {
 
@@ -28,31 +30,48 @@ class TranslateActivity : AppCompatActivity() {
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
 
-        val languageList = arrayListOf<String>()
-        languageList.add("fr")
-        languageList.add("es")
-        languageList.add("tr")
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, languageList)
+        val locales = Locale.getAvailableLocales()
+
+        // GETTING COUNTRY CODE (WORKING PROGRESS)
+//        val otherLocales = Resources.getSystem().assets.locales
+//        for(lang in otherLocales) {
+//            println(lang.toString())
+//        }
+
+        val countries = arrayListOf<String>()
+        for (locale in locales) {
+            val country = locale.displayCountry
+            if (country.trim { it <= ' ' }.isNotEmpty() && !countries.contains(country)) {
+                countries.add(country)
+            }
+        }
+
+        countries.sort()
+
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, countries)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         language_selector.adapter = aa
 
-
         translateButton.setOnClickListener {
-            val chosenLang = language_selector.selectedItem.toString()
 
-            if(chosenLang.isEmpty()) {
-                language_selector.prompt = "Field is empty"
-                language_selector.requestFocus()
-                return@setOnClickListener
+            val chosenLang = getCountryCode(language_selector.selectedItem.toString())?.toLowerCase(Locale.ROOT)
+
+            if (chosenLang != null) {
+                if(chosenLang.isEmpty()) {
+                    language_selector.prompt = "Field is empty"
+                    language_selector.requestFocus()
+                    return@setOnClickListener
+                }
             }
 
             if (checkInternetConnection()) {
-
                 //If there is internet connection, get translate service and start translation:
                 getTranslateService()
-                translate(chosenLang)
+                if (chosenLang != null) {
+                    translate(chosenLang)
+                }
 
             } else {
 
@@ -61,6 +80,24 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    private fun getCountryCode(countryName: String): String? {
+        // Get all country codes in a string array.
+        val isoCountryCodes = Locale.getISOCountries()
+        var countryCode: String? = ""
+        for (code in isoCountryCodes) {
+            val locale = Locale("", code)
+            val name = locale.displayCountry
+            if (name == countryName) {
+                countryCode = code
+                break
+            }
+        }
+        return countryCode
+    }
+
+
 
     private fun getTranslateService() {
 
