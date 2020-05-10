@@ -3,9 +3,11 @@ package com.example.myapplication
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -29,7 +31,10 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
+import java.io.File
 import java.lang.Exception
 
 
@@ -138,7 +143,12 @@ class OCRActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == AppCompatActivity.RESULT_OK) {
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                ocrImage.setImageURI(data!!.data)
+                CropImage.activity(data!!.data)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this)
+
+
+
 
             }
 
@@ -149,8 +159,17 @@ class OCRActivity : AppCompatActivity() {
 
             }
 
-
         }
+            if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+                val result = CropImage.getActivityResult(data)
+                if(resultCode == Activity.RESULT_OK)
+                    try {
+                    val bitmap = BitmapFactory.decodeFile(result.uri.path)
+                    ocrImage.setImageBitmap(bitmap)
+                } catch(e: Exception){
+                        Toast.makeText(this, "Error with CROP", Toast.LENGTH_LONG).show()
+                    }
+            }
     }
 
     @SuppressLint("SetTextI18n")
