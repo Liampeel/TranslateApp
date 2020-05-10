@@ -25,6 +25,13 @@
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
 
+
+
+        <meta-data
+            android:name="com.google.cloud:google-cloud-translate.API_KEY"
+            android:value="AIzaSyBPsc3iLWVwU2eiqnG2W2UEjYISTb6_c1Y"/>
+
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr" />

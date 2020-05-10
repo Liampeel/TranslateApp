@@ -1,24 +1,27 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
+import com.neovisionaries.i18n.LanguageCode
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import kotlinx.android.synthetic.main.activity_ocr.*
 import kotlinx.android.synthetic.main.activity_translate.*
 import java.io.IOException
+import java.util.*
+
 
 class TranslateActivity : AppCompatActivity() {
-
 
     private var translate: Translate? = null
     lateinit var input: TextView
@@ -39,31 +42,36 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-        val languageList = arrayListOf<String>()
-        languageList.add("fr")
-        languageList.add("es")
-        languageList.add("tr")
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, languageList)
+        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
+            "id", "ja", "ru", "sv", "tr", "th", "vi")
+
+        val fullLanguageText = arrayListOf<String>()
+
+        for(lan in languageCodes) {
+            fullLanguageText.add(Locale(lan).displayLanguage)
+        }
+
+
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, fullLanguageText)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         language_selector.adapter = aa
 
 
         translateButton.setOnClickListener {
-            val chosenLang = language_selector.selectedItem.toString()
+            val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
 
-            if(chosenLang.isEmpty()) {
+            if(chosenLanguage.isEmpty()) {
                 language_selector.prompt = "Field is empty"
                 language_selector.requestFocus()
                 return@setOnClickListener
             }
 
             if (checkInternetConnection()) {
-
                 //If there is internet connection, get translate service and start translation:
                 getTranslateService()
-                translate(chosenLang)
+                translate(chosenLanguage)
 
             } else {
 
@@ -74,6 +82,7 @@ class TranslateActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
         val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
 
@@ -81,8 +90,9 @@ class TranslateActivity : AppCompatActivity() {
         languageIdentifier.identifyLanguage(output)
             .addOnSuccessListener { lang ->
                 if (lang !== "und") {
-                    langDetected.text = "Language detected = $lang"
-                    println("Language = $lang")
+                    val displayLanguage = Locale(lang).displayLanguage
+                    langDetected.text = "Language detected = $displayLanguage"
+                    println("Language = $displayLanguage")
                 } else {
                     Toast.makeText(this, "Can't Detect Language", Toast.LENGTH_LONG).show()
 

@@ -36,6 +36,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
 import java.io.File
 import java.lang.Exception
+import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
