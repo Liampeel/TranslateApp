@@ -8,10 +8,13 @@ import android.os.StrictMode
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
 import com.neovisionaries.i18n.LanguageCode
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
+import kotlinx.android.synthetic.main.activity_ocr.*
 import kotlinx.android.synthetic.main.activity_translate.*
 import java.io.IOException
 import java.util.*
@@ -21,14 +24,23 @@ class TranslateActivity : AppCompatActivity() {
 
     private var translate: Translate? = null
     lateinit var input: TextView
+    lateinit var langDetected: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_translate)
         input = findViewById(R.id.inputToTranslate)
+        langDetected = findViewById(R.id.langDetected)
+
 
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
+
+        if (translate != null) {
+            detectLang(translate)
+        }
+
 
         val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
             "id", "ja", "ru", "sv", "tr", "th", "vi")
@@ -68,6 +80,25 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun detectLang(output: String){
+        val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
+
+        println(output)
+        languageIdentifier.identifyLanguage(output)
+            .addOnSuccessListener { lang ->
+                if (lang !== "und") {
+                    langDetected.text = "Language detected = $lang"
+                    println("Language = $lang")
+                } else {
+                    Toast.makeText(this, "Can't Detect Language", Toast.LENGTH_LONG).show()
+
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+            }
+    }
 
     private fun getTranslateService() {
 

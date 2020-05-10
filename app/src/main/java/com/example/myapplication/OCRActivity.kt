@@ -20,6 +20,7 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.tasks.OnFailureListener
@@ -28,7 +29,10 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
+import java.io.File
 import java.lang.Exception
 import java.util.*
 
@@ -84,71 +88,37 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
-    private fun showImageImportDialog() {
-        val items: Array<String> = arrayOf("Gallery", " Camera")
-        val dialog =
-            AlertDialog.Builder(this)
-        //set title
-        dialog.setTitle("Select Image")
-        dialog.setItems(items) { _, which ->
-            println(which == 0)
-            println(which == 1)
-            if (which == 0) {
-                if (!checkStoragePermission()) {
-                    requestStoragePermission()
-                } else {
-                    pickImage()
-                }
-            } else if (which == 1) {
-                if (!checkCameraPermission())
-                    requestCameraPermission()
-            } else {
-                pickCamera()
-            }
-        }
-        dialog.create().show()
-    }
 
 
-    private fun pickCamera() {
-        println("Camera")
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, IMAGE_PICK_CAMERA_CODE)
-                println("pickCamera")
-            }
-        }
-    }
 
 
-    fun pickImage() {
-        println("Image")
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"),
-            IMAGE_PICK_GALLERY_CODE
-        )
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == AppCompatActivity.RESULT_OK) {
             if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                ocrImage.setImageURI(data!!.data)
+                CropImage.activity(data!!.data)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this)
 
             }
 
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
-                ocrImage.setImageURI(data!!.data)
-                val imageBitmap = data.extras!!.get("data") as Bitmap
-                ocrImage.setImageBitmap(imageBitmap)
-
+                CropImage.activity(data!!.data)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this)
             }
-
-
         }
+            if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+                val result = CropImage.getActivityResult(data)
+                if(resultCode == Activity.RESULT_OK)
+                    try {
+                    val bitmap = BitmapFactory.decodeFile(result.uri.path)
+                    ocrImage.setImageBitmap(bitmap)
+                } catch(e: Exception){
+                        Toast.makeText(this, "Error with CROP", Toast.LENGTH_LONG).show()
+                    }
+            }
     }
 
     @SuppressLint("SetTextI18n")
@@ -192,28 +162,61 @@ class OCRActivity : AppCompatActivity() {
             output += "$blockText "
         }
 
-        val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
-
-        println(output)
-        languageIdentifier.identifyLanguage(output)
-            .addOnSuccessListener { lang ->
-                if (lang !== "und") {
-                    val displayLanguage = Locale(lang).displayLanguage
-                    detected_language.text = "Language detected = $displayLanguage"
-                    println("Language = $lang")
-                } else {
-                    println("Can't detect language")
-                }
-            }
-            .addOnFailureListener { e ->
-                e.printStackTrace()
-            }
     }
 
 
+    private fun showImageImportDialog() {
+        val items: Array<String> = arrayOf("Camera", " Gallery")
+        val dialog =
+            AlertDialog.Builder(this)
+        //set title
+        dialog.setTitle("Select Image")
+        dialog.setItems(items) { dialog, which ->
+            println(which == 0)
+            println(which == 1)
+            if (which == 0) {
+                pickCamera()
+            }
+            else if (which == 1) {
+                pickImage()
+            }
+        }
+        dialog.create().show()
+    }
+
+
+    private fun pickCamera() {
+
+        if (!checkCameraPermission()) {
+            requestCameraPermission()
+        } else {
+            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(callCameraIntent,IMAGE_PICK_CAMERA_CODE)
+            println("pickCamera")
+        }
+    }
+
+
+
+
+    fun pickImage() {
+        if (!checkStoragePermission()) {
+            requestStoragePermission()
+        } else {
+            println("Image")
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"),
+                IMAGE_PICK_GALLERY_CODE
+            )
+        }
+    }
+
     private fun requestStoragePermission() {
-        ActivityCompat.requestPermissions(
-            this, storagePermission, STORAGE_REQUEST_CODE
+        System.out.println("Requesting Storage")
+        ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE
         )
     }
 
@@ -234,6 +237,8 @@ class OCRActivity : AppCompatActivity() {
      * request permission to access phones camera
      */
     private fun requestCameraPermission() {
+        System.out.println("Requesting Storage")
+
         ActivityCompat.requestPermissions(
             this,
             cameraPermission, CAMERA_REQUEST_CODE
@@ -274,7 +279,7 @@ class OCRActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            CAMERA_REQUEST_CODE -> if (grantResults.size > 0) {
+            CAMERA_REQUEST_CODE -> if (grantResults.isNotEmpty()) {
                 val cameraAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 val writeStorageAccepted = grantResults[0] ==
@@ -286,7 +291,7 @@ class OCRActivity : AppCompatActivity() {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
             }
-            STORAGE_REQUEST_CODE -> if (grantResults.size > 0) {
+            STORAGE_REQUEST_CODE -> if (grantResults.isNotEmpty()) {
                 val writeStorageAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 if (writeStorageAccepted) {
