@@ -6,6 +6,7 @@ import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
@@ -16,7 +17,6 @@ import java.io.IOException
 class TranslateActivity : AppCompatActivity() {
 
 
-
     private var translate: Translate? = null
     lateinit var input: TextView
 
@@ -25,16 +25,34 @@ class TranslateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_translate)
         input = findViewById(R.id.inputToTranslate)
 
-        val translate:String = intent.getStringExtra("translate")
+        val translate: String? = intent.getStringExtra("translate")
         input.text = translate
+
+        val languageList = arrayListOf<String>()
+        languageList.add("fr")
+        languageList.add("es")
+        languageList.add("tr")
+
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, languageList)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        language_selector.adapter = aa
 
 
         translateButton.setOnClickListener {
+            val chosenLang = language_selector.selectedItem.toString()
+
+            if(chosenLang.isEmpty()) {
+                language_selector.prompt = "Field is empty"
+                language_selector.requestFocus()
+                return@setOnClickListener
+            }
+
             if (checkInternetConnection()) {
 
                 //If there is internet connection, get translate service and start translation:
                 getTranslateService()
-                translate()
+                translate(chosenLang)
 
             } else {
 
@@ -52,7 +70,8 @@ class TranslateActivity : AppCompatActivity() {
         try {
             resources.openRawResource(R.raw.narhwal2ddb1459490f).use { `is` ->
                 val myCredentials = GoogleCredentials.fromStream(`is`)
-                val translateOptions = TranslateOptions.newBuilder().setCredentials(myCredentials).build()
+                val translateOptions =
+                    TranslateOptions.newBuilder().setCredentials(myCredentials).build()
                 translate = translateOptions.service
             }
         } catch (ioe: IOException) {
@@ -62,24 +81,27 @@ class TranslateActivity : AppCompatActivity() {
 
     }
 
-    private fun translate() {
-
-        val turkey = "tr"
+    private fun translate(language : String) {
         //Get input text to be translated:
         val originalText: String = inputToTranslate!!.text.toString()
-        val translation = translate!!.translate(originalText, Translate.TranslateOption.targetLanguage(turkey), Translate.TranslateOption.model("base"))
+        val translation = translate!!.translate(
+            originalText,
+            Translate.TranslateOption.targetLanguage(language),
+            Translate.TranslateOption.model("base")
+        )
 
         //Translated text and original text are set to TextViews:
         translatedTv!!.text = translation.translatedText
 
     }
 
+
     private fun checkInternetConnection(): Boolean {
 
         //Check internet connection:
-        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-
         //Means that we are connected to a network (mobile or wi-fi)
         return activeNetwork?.isConnected == true
 

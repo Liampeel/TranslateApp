@@ -91,7 +91,7 @@ class OCRActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
         //set title
         dialog.setTitle("Select Image")
-        dialog.setItems(items) { dialog, which ->
+        dialog.setItems(items) { _, which ->
             println(which == 0)
             println(which == 1)
             if (which == 0) {
