@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.content.Context
-import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -12,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
+import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
 import java.io.IOException
 import java.util.*
 
-class TranslateActivity : AppCompatActivity() {
 
+class TranslateActivity : AppCompatActivity() {
 
     private var translate: Translate? = null
     lateinit var input: TextView
@@ -30,48 +30,35 @@ class TranslateActivity : AppCompatActivity() {
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
 
+        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
+            "id", "ja", "ru", "sv", "tr", "th", "vi")
 
-        val locales = Locale.getAvailableLocales()
+        val fullLanguageText = arrayListOf<String>()
 
-        // GETTING COUNTRY CODE (WORKING PROGRESS)
-//        val otherLocales = Resources.getSystem().assets.locales
-//        for(lang in otherLocales) {
-//            println(lang.toString())
-//        }
-
-        val countries = arrayListOf<String>()
-        for (locale in locales) {
-            val country = locale.displayCountry
-            if (country.trim { it <= ' ' }.isNotEmpty() && !countries.contains(country)) {
-                countries.add(country)
-            }
+        for(lan in languageCodes) {
+            fullLanguageText.add(Locale(lan).displayLanguage)
         }
 
-        countries.sort()
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, countries)
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, fullLanguageText)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         language_selector.adapter = aa
 
+
         translateButton.setOnClickListener {
+            val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
 
-            val chosenLang = getCountryCode(language_selector.selectedItem.toString())?.toLowerCase(Locale.ROOT)
-
-            if (chosenLang != null) {
-                if(chosenLang.isEmpty()) {
-                    language_selector.prompt = "Field is empty"
-                    language_selector.requestFocus()
-                    return@setOnClickListener
-                }
+            if(chosenLanguage.isEmpty()) {
+                language_selector.prompt = "Field is empty"
+                language_selector.requestFocus()
+                return@setOnClickListener
             }
 
             if (checkInternetConnection()) {
                 //If there is internet connection, get translate service and start translation:
                 getTranslateService()
-                if (chosenLang != null) {
-                    translate(chosenLang)
-                }
+                translate(chosenLanguage)
 
             } else {
 
@@ -80,23 +67,6 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
-
-
-    private fun getCountryCode(countryName: String): String? {
-        // Get all country codes in a string array.
-        val isoCountryCodes = Locale.getISOCountries()
-        var countryCode: String? = ""
-        for (code in isoCountryCodes) {
-            val locale = Locale("", code)
-            val name = locale.displayCountry
-            if (name == countryName) {
-                countryCode = code
-                break
-            }
-        }
-        return countryCode
-    }
-
 
 
     private fun getTranslateService() {
