@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -81,6 +82,7 @@ class TranslateActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
         val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
 
@@ -88,8 +90,9 @@ class TranslateActivity : AppCompatActivity() {
         languageIdentifier.identifyLanguage(output)
             .addOnSuccessListener { lang ->
                 if (lang !== "und") {
-                    langDetected.text = "Language detected = $lang"
-                    println("Language = $lang")
+                    val displayLanguage = Locale(lang).displayLanguage
+                    langDetected.text = "Language detected = $displayLanguage"
+                    println("Language = $displayLanguage")
                 } else {
                     Toast.makeText(this, "Can't Detect Language", Toast.LENGTH_LONG).show()
 
