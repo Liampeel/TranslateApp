@@ -1,21 +1,20 @@
 package com.example.myapplication.API
 
 
-import com.example.myapplication.Models.DefaultResponse
-import com.example.myapplication.Models.createUserData
-import com.example.myapplication.Models.loginData
+import com.example.myapplication.Models.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface API {
 
 
     @POST("login/")
-    fun loginUser(@Body loginData: loginData):Call<DefaultResponse>
+    fun loginUser(@Body loginData: loginData):Call<loginResponse>
 
     @POST("register/")
-    fun createUser(@Body createUserData: createUserData):Call<createUserData>
+    fun createUser(@Body createUserData: createUserData):Call<DefaultResponse>
+
+    @POST("queries/")
+    fun queries(@Body queryData: queryData):Call<queryResponse>
+
 }
