@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.EditText
@@ -29,6 +30,13 @@ class MainActivity : AppCompatActivity() {
         username = findViewById(R.id.usernameText)
         password = findViewById(R.id.editTextPassword)
 
+        icon.setOnClickListener {
+            val intent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ykwqXuMPsoc"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.setPackage("com.google.android.youtube")
+            startActivity(intent)
+        }
 
         registerPage.setOnClickListener {
             println("Before val intent")
@@ -48,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
 
             if (password.isEmpty()) {
-                editTextPassword.error = "Email required"
+                editTextPassword.error = "Password required"
                 editTextPassword.requestFocus()
                 return@setOnClickListener
             }
@@ -75,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(
                                 applicationContext,
-                                "error logging in",
+                                "Error",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -85,8 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-
 
 
 
