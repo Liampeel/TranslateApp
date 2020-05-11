@@ -48,8 +48,8 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
-            "ar", "fa", "id", "ja", "ru", "sv", "tr", "th", "vi")
+        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "fi", "bg", "hu",
+            "ar", "fa", "id", "hi", "ja", "ru", "sv", "tr", "th", "vi")
 
         val fullLanguageText = arrayListOf<String>()
 
@@ -159,7 +159,5 @@ class TranslateActivity : AppCompatActivity() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         //Means that we are connected to a network (mobile or wi-fi)
         return activeNetwork?.isConnected == true
-
     }
-
 }

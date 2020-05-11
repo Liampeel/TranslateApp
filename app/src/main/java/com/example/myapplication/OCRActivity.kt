@@ -141,7 +141,7 @@ class OCRActivity : AppCompatActivity() {
         }
 
     }
-    
+
 
     private fun imageSelector() {
         if (!checkCameraPermission()) {
