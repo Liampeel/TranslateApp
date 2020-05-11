@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         password = findViewById(R.id.editTextPassword)
 
         icon.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ykwqXuMPsoc"))
+            val intent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ykwqXuMPsoc"))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.setPackage("com.google.android.youtube")
             startActivity(intent)
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(
                                 applicationContext,
-                                response.body()?.message,
+                                "Error",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -91,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                 })
         }
     }
+}
 
 
 
