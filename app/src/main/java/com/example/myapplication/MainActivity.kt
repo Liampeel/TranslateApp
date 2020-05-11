@@ -99,12 +99,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val sessionManager = SharedPrefManager(this)
+        
 
         loginClient.RetrofitClient.instance.loginUser(loginData(username, password))
             .enqueue(object : Callback<loginResponse> {
                 override fun onFailure(call: Call<loginResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                             val loginResponse = response.body()
                             Toast.makeText(applicationContext, loginResponse!!.token, Toast.LENGTH_SHORT)
                                 .show()
-                            sessionManager.saveAuthToken(loginResponse!!.token)
+                            SharedPrefManager.getInstance(applicationContext).saveAuthToken(loginResponse!!.token)
 
                         }
                     } else {

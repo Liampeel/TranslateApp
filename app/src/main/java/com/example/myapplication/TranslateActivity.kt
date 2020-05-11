@@ -106,10 +106,12 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val sessionManager = SharedPrefManager(this)
 
 
-        var token = ("Token ${sessionManager.fetchAuthToken()}")
+        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+
+
+
         System.out.println(token)
 
         com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
@@ -123,11 +125,12 @@ class TranslateActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
                 ) {
                     println("got response ")
-                    if (response.code() == 201) {
+                    if (response.code() == 200) {
                         println("respomnse code is 201")
                         if (response.body() != null) {
                             println("sending translation")
-                            val intent = Intent(this@TranslateActivity, OCRActivity::class.java)
+                            SharedPrefManager.getInstance(this@TranslateActivity).clear()
+                            val intent = Intent(this@TranslateActivity, MainActivity::class.java)
                             startActivity(intent)
                             Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
                                 .show()
@@ -227,10 +230,10 @@ class TranslateActivity : AppCompatActivity() {
 
 
         val RetrofitClient = RetrofitClient()
-        val sessionManager = SharedPrefManager(this)
 
 
-        var token = ("Token ${sessionManager.fetchAuthToken()}")
+
+        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
         System.out.println(token)
 
         com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)

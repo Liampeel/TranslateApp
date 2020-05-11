@@ -26,6 +26,7 @@ from rest_framework.views import APIView
 # Create your views here.
 import json
 
+
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
@@ -48,12 +49,11 @@ def create_user(request, format=None):
             if password != password2:
                 return HttpResponse('Passwords do not match', status=400)
 
-
             user = User.objects.create_user(username=username, email=email, password=password)
-            #token = Token.objects.create(user=user)
-            #print(token.key)
+            # token = Token.objects.create(user=user)
+            # print(token.key)
             user.save()
-            return_data = {"username": username, "email": email, "Unique ID":user.id}#, "token": token.key}
+            return_data = {"username": username, "email": email, "Unique ID": user.id}  # , "token": token.key}
             json_return_data_dump = json.dumps(return_data)
             json_return_data = json.loads(json_return_data_dump)
             return JsonResponse(return_data)
@@ -63,23 +63,29 @@ def create_user(request, format=None):
     else:
         return JsonResponse('Invalid request', status=400)
 
+
 @csrf_exempt
 def logout_request(request):
-    if request.method == 'POST':
-        request.user.auth_token.delete()
-        logout(request)
-        response = {"response": "Logged out"}
-        headers = request.META
-        print(str(headers))
+    # if request.user.is_authenticated:
 
-        print(request, "Logged out successfully!")
-        return HttpResponse(headers, status=200)
+    logout(request)
 
-        # headers = request.META
-        # print(str(headers))
-        # print("failed logout")
-        # failResponse = {"response": "Failed to log out"}
-        # return HttpResponse(headers, status=400)
+    response = {"response": "Logged out"}
+    headers = request.META
+    print(str(headers))
+
+    print(request, "Logged out successfully!")
+
+    # request.user.auth_token.delete()
+    return HttpResponse(response, status=200)
+
+
+# else:
+#     headers = request.META
+#     print(str(headers))
+#     print("failed logout")
+#     failResponse = {"response": "Failed to log out"}
+#     return HttpResponse(headers, status=400)
 
 @csrf_exempt
 def user_login(request):
@@ -95,19 +101,21 @@ def user_login(request):
             if user:
                 if user.is_active:
                     if is_tokened:
-                        print("deleting token")
-                        request.user.auth_token.delete()
-                        print("after deleting")
-                        print("current token " + Token.objects.filter(user=user).key)
-                        print("creating new token")
-                        token = Token.objects.create(user=user)
+
+                        token = Token.objects.get(user=user)
+
+                        print(token)
+
+                        string_token = (str(token))
+
                         login(request, user)
-                        return_data = {"token": token.key, "unique_ID": user.id}
+                        return_data = {"token": string_token, "unique_ID": user.id}
                         return JsonResponse(return_data)
 
                     elif not is_tokened:
                         print("creating new token not is tokened")
                         token = Token.objects.create(user=user)
+                        print(token)
                         login(request, user)
                         return_data = {"token": token.key, "unique_ID": user.id}
                         return JsonResponse(return_data)
@@ -127,13 +135,11 @@ def user_login(request):
         return JsonResponse(response, status=400)
 
 
-
-
-
 class QueryList(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -142,6 +148,7 @@ class QueryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Query.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = QuerySerializer
+
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
