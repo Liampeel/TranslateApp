@@ -7,10 +7,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.StrictMode
+import android.text.method.ScrollingMovementMethod
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
@@ -19,9 +22,8 @@ import com.example.myapplication.Models.queryResponse
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
-import com.neovisionaries.i18n.LanguageCode
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
-import kotlinx.android.synthetic.main.activity_ocr.*
+import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,6 +48,7 @@ class TranslateActivity : AppCompatActivity() {
         postQuery = findViewById(R.id.postQuery)
 
 
+        inputToTranslate.movementMethod = ScrollingMovementMethod()
 
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
@@ -54,9 +57,8 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-
         val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
-            "id", "ja", "ru", "sv", "tr", "th", "vi")
+            "ar", "fa", "id", "ja", "ru", "sv", "tr", "th", "vi")
 
         val fullLanguageText = arrayListOf<String>()
 
@@ -65,10 +67,20 @@ class TranslateActivity : AppCompatActivity() {
         }
 
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, fullLanguageText)
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fullLanguageText)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        language_selector.adapter = adapter
 
-        language_selector.adapter = aa
+
+        language_selector.background.setColorFilter(resources.getColor(R.color.login_form_details), PorterDuff.Mode.SRC_ATOP);
+
+        language_selector.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View,
+                position: Int, id: Long) {
+                (parent.getChildAt(0) as TextView).setTextColor(Color.WHITE)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         postQuery.setOnClickListener {
             postData()
@@ -76,8 +88,8 @@ class TranslateActivity : AppCompatActivity() {
 
 
         translateButton.setOnClickListener {
-            val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
 
+            val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
             if(chosenLanguage.isEmpty()) {
                 language_selector.prompt = "Field is empty"
                 language_selector.requestFocus()
@@ -96,7 +108,6 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
