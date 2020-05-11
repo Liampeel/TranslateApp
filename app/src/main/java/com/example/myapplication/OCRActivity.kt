@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.myapplication.API.RetrofitClient
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
@@ -34,12 +35,46 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.lang.Exception
 import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
+
+//    override fun onDestroy(){
+//        super.onDestroy()
+//        System.out.println("destroy")
+//        RetrofitClient.instance!!.api.logout().enqueue(object: Callback<ResponseBody> {
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                Toast.makeText(
+//                    applicationContext, "Failed", Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//
+//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                if (response.code() == 200) {
+//                    println("respomnse code is 200")
+//                    if (response.body() != null) {
+//                        println("logging out")
+//
+//                        Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//                } else {
+//                    Toast.makeText(
+//                        applicationContext, "Error", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//
+//        })
+//
+//    }
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
@@ -88,6 +123,10 @@ class OCRActivity : AppCompatActivity() {
         }
 
     }
+
+
+
+
 
 
 

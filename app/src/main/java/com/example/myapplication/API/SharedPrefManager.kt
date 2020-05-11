@@ -7,6 +7,7 @@ import com.example.myapplication.R
 
 class SharedPrefManager (context: Context) {
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+    private var mInstance: SharedPrefManager? = null
 
     companion object {
         const val USER_TOKEN = "user_token"
@@ -27,4 +28,20 @@ class SharedPrefManager (context: Context) {
     fun fetchAuthToken(): String? {
         return prefs.getString(USER_TOKEN, null)
     }
+
+
+    fun clear() {
+        val editor = prefs.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    @Synchronized
+    fun getInstance(context: Context): SharedPrefManager? {
+        if (mInstance == null) {
+            mInstance = SharedPrefManager(context)
+        }
+        return mInstance
+    }
+
 }

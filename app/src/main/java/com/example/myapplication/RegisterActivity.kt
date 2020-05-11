@@ -54,37 +54,43 @@ class RegisterActivity : AppCompatActivity() {
                 editTextPassword.requestFocus()
             }
 
+//            if (password.length < 7) {
+//                editTextPassword.error = "Password too short"
+//                editTextPassword.requestFocus()
+//
+//            }
 
 
-            val RetrofitClient = RetrofitClient()
 
-           RetrofitClient.getApiService(this).createUser(createUserData(email, username, password, password2))
-               .enqueue(object : Callback<DefaultResponse> {
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                println("No response from server")
-            }
 
-            override fun onResponse(call: Call<DefaultResponse>, response: Response<DefaultResponse>
-            ) {
-                println("got response ")
-                if (response.code() == 200) {
-                    println("respomnse code is 200")
-                    if (response.body() != null) {
-                        println("Going to register page")
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
 
-                        startActivity(intent)
-                        Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                            .show()
+            RetrofitClient.instance?.api?.createUser(createUserData(email, username, password, password2))
+                ?.enqueue(object : Callback<DefaultResponse> {
+                    override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                        println("No response from server")
                     }
-                } else {
-                    Toast.makeText(
-                        applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                }
-            }
 
-        })
+                    override fun onResponse(call: Call<DefaultResponse>, response: Response<DefaultResponse>
+                    ) {
+                        println("got response ")
+                        if (response.code() == 200) {
+                            println("respomnse code is 200")
+                            if (response.body() != null) {
+                                println("Going to register page")
+                                val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+
+                                startActivity(intent)
+                                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        } else {
+                            Toast.makeText(
+                                applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                })
 
 
         }

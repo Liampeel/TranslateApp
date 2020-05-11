@@ -11,7 +11,9 @@ from django.dispatch import receiver
 class Query(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey('auth.User', related_name='queries', on_delete=models.CASCADE, default="")
-    user_query = models.TextField()
+    initialText = models.TextField()
+    language = models.TextField()
+    translatedText = models.TextField()
 
     def save(self, *args, **kwargs):
         super(Query, self).save(*args, **kwargs)

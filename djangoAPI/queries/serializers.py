@@ -10,7 +10,7 @@ class QuerySerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Query
-        fields = ['id', 'owner', 'user_query']
+        fields = ['id', 'owner', 'initialText', 'language', 'translatedText', 'date_created']
 
 
 class UserSerializer(serializers.ModelSerializer):
