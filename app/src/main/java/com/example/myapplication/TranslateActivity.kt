@@ -2,8 +2,7 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -13,15 +12,22 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.API.RetrofitClient
+import com.example.myapplication.API.SharedPrefManager
+import com.example.myapplication.Models.queryData
+import com.example.myapplication.Models.queryResponse
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.util.*
 
@@ -31,6 +37,7 @@ class TranslateActivity : AppCompatActivity() {
     private var translate: Translate? = null
     lateinit var input: TextView
     lateinit var langDetected: TextView
+    lateinit var postQuery: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +45,8 @@ class TranslateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_translate)
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
+        postQuery = findViewById(R.id.postQuery)
+
 
         inputToTranslate.movementMethod = ScrollingMovementMethod()
 
@@ -71,6 +80,10 @@ class TranslateActivity : AppCompatActivity() {
                 (parent.getChildAt(0) as TextView).setTextColor(Color.WHITE)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        postQuery.setOnClickListener {
+            postData()
         }
 
 
@@ -162,4 +175,47 @@ class TranslateActivity : AppCompatActivity() {
 
     }
 
-}
+
+    private fun postData(){
+        System.out.println("Post Data method")
+        val user_query = translatedTv.text.toString().trim()
+
+        val RetrofitClient = RetrofitClient()
+        val sessionManager = SharedPrefManager(this)
+
+        System.out.println("Token ${sessionManager.fetchAuthToken()}")
+
+        RetrofitClient.getApiService(this)
+            .queries(queryData(user_query)
+        )
+            .enqueue(object: Callback<queryResponse> {
+                override fun onFailure(call: Call<queryResponse>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    println("No response from server")
+                }
+
+                override fun onResponse(call: Call<queryResponse>, response: Response<queryResponse>
+                ) {
+                    println("got response ")
+                    if (response.code() == 201) {
+                        println("respomnse code is 201")
+                        if (response.body() != null) {
+                            println("sending translation")
+                            val intent = Intent(this@TranslateActivity, OCRActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext, "Error", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            })
+    }
+
+    }
+
+
