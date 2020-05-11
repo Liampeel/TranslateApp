@@ -1,0 +1,3 @@
+# Android Translate Application
+
+Add docs, including how to run the application here before the submission deadline...
