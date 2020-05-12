@@ -39,6 +39,7 @@ class TranslateActivity : AppCompatActivity() {
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
 
+        inputToTranslate.setHorizontallyScrolling(false)
         inputToTranslate.movementMethod = ScrollingMovementMethod()
 
         val translate: String? = intent.getStringExtra("translate")

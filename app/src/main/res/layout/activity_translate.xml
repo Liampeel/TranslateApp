@@ -8,6 +8,31 @@
     tools:context=".TranslateActivity">
 
 
+
+<!--    <TextView-->
+<!--        android:id="@+id/inputToTranslate"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="146dp"-->
+
+
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@drawable/edit_text_background"-->
+<!--        android:ems="10"-->
+
+<!--        android:lines="1"-->
+<!--        android:layout_gravity="end"-->
+
+<!--        android:hint=""-->
+<!--        android:inputType="text"-->
+<!--        android:maxLines="1"-->
+<!--        android:scrollbars="vertical"-->
+<!--        android:textColor="@color/login_form_details"-->
+<!--        android:textColorHint="@color/login_form_details"-->
+<!--        android:textSize="20sp"-->
+<!--        tools:ignore="TextViewEdits" />-->
+
+
     <TextView
         android:id="@+id/inputToTranslate"
         android:layout_width="350dp"
