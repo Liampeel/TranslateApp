@@ -1,25 +1,22 @@
 package com.example.myapplication.API
 
-import android.content.Context
-import okhttp3.Credentials
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class AuthenticationInterceptor(context: Context) : Interceptor {
+class AuthenticationInterceptor(var token: String) : Interceptor {
 
 
-
-    private val sessionManager = SessionManager(context)
-
+    @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val requestBuilder = chain.request().newBuilder()
-
-        // If token has been saved, add it to the request
-        sessionManager.fetchAuthToken()?.let {
-            requestBuilder.addHeader("Authorization", "Bearer $it")
-        }
-
-        return chain.proceed(requestBuilder.build())
+        val request: Request = chain.request()
+        System.out.println("Authinterceptor")
+        System.out.println("Authinterceptor" + token)
+        val authenticatedRequest: Request = request.newBuilder()
+            .header("Authorization", token).build()
+        return chain.proceed(authenticatedRequest)
     }
+
+
 }

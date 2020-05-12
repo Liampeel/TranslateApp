@@ -19,16 +19,67 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import com.example.myapplication.API.RetrofitClient
+import com.example.myapplication.API.SharedPrefManager
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 import java.lang.Exception
 
 
 class OCRActivity : AppCompatActivity() {
+
+    override fun onDestroy(){
+        super.onDestroy()
+        System.out.println("destroy")
+        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+
+
+
+        System.out.println(token)
+
+        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
+
+            ?.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    println("No response from server")
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
+                ) {
+                    println("got response ")
+                    if (response.code() == 200) {
+                        println("respomnse code is 201")
+                        if (response.body() != null) {
+                            println("sending translation")
+                            SharedPrefManager.getInstance(this@OCRActivity).clear()
+                            val intent = Intent(this@OCRActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext, "Error", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            })
+    }
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText

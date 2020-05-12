@@ -8,49 +8,21 @@
     tools:context=".TranslateActivity">
 
 
-
-<!--    <TextView-->
-<!--        android:id="@+id/inputToTranslate"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="146dp"-->
-
-
-<!--        android:layout_marginTop="48dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:background="@drawable/edit_text_background"-->
-<!--        android:ems="10"-->
-
-<!--        android:lines="1"-->
-<!--        android:layout_gravity="end"-->
-
-<!--        android:hint=""-->
-<!--        android:inputType="text"-->
-<!--        android:maxLines="1"-->
-<!--        android:scrollbars="vertical"-->
-<!--        android:textColor="@color/login_form_details"-->
-<!--        android:textColorHint="@color/login_form_details"-->
-<!--        android:textSize="20sp"-->
-<!--        tools:ignore="TextViewEdits" />-->
-
-
     <TextView
         android:id="@+id/inputToTranslate"
-        android:layout_width="350dp"
+        android:scrollbars = "vertical"
+        android:maxLines="5"
+        android:layout_width="298dp"
         android:layout_height="146dp"
-
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/edit_text_background"
         android:ems="10"
-
+        android:textSize="20sp"
         android:hint=""
-        android:inputType="text"
-        android:maxLines="5"
-        android:scrollbars="vertical"
         android:textColor="@color/login_form_details"
         android:textColorHint="@color/login_form_details"
-        android:textSize="20sp"
+        android:inputType="text"
         tools:ignore="TextViewEdits" />
 
     <TextView
@@ -63,18 +35,16 @@
         android:ems="10"
         android:hint=""
         android:inputType="text"
-        android:textAllCaps="false"
         android:textColor="@color/login_form_details"
         android:textColorHint="@color/login_form_details"
         android:textSize="20sp"
-        android:textStyle="italic"
         tools:ignore="TextViewEdits" />
 
 
     <!-- Delete button background on spinner for other UI view-->
     <Spinner
-        android:id="@+id/language_selector"
         style="@style/Widget.AppCompat.DropDownItem.Spinner"
+        android:id="@+id/language_selector"
         android:layout_width="192dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
@@ -97,15 +67,33 @@
 
     <TextView
         android:id="@+id/translatedTv"
-        android:layout_width="350dp"
+        android:layout_width="298dp"
         android:layout_height="146dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edit_text_background"
-        android:scrollbars="vertical"
+        android:layout_marginTop="50dp"
+        android:scrollbars = "vertical"
 
         android:textColor="@color/login_form_details"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/postQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background"
+        android:text="POST"
+        android:textColor="@color/login_form_details" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
 
 </LinearLayout>
 
