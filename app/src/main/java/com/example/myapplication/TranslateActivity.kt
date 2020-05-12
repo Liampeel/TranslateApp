@@ -3,6 +3,8 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -26,7 +28,6 @@ import com.google.cloud.translate.TranslateOptions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +41,6 @@ class TranslateActivity : AppCompatActivity() {
     lateinit var input: TextView
     lateinit var langDetected: TextView
     lateinit var postQuery: Button
-    lateinit var logoutButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,6 @@ class TranslateActivity : AppCompatActivity() {
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
         postQuery = findViewById(R.id.postQuery)
-        logoutButton = findViewById(R.id.logoutButton)
 
 
         inputToTranslate.movementMethod = ScrollingMovementMethod()
@@ -61,8 +60,8 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
-            "ar", "fa", "id", "ja", "ru", "sv", "tr", "th", "vi")
+        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "fi", "bg", "hu",
+            "ar", "fa", "id", "hi", "ja", "ru", "sv", "tr", "th", "vi")
 
         val fullLanguageText = arrayListOf<String>()
 
@@ -90,12 +89,6 @@ class TranslateActivity : AppCompatActivity() {
             postData()
         }
 
-        logoutButton.setOnClickListener {
-            logout()
-        }
-
-
-
 
         translateButton.setOnClickListener {
 
@@ -118,48 +111,6 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun logout() {
-
-
-        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
-
-
-
-        System.out.println(token)
-
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
-
-            ?.enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                    println("No response from server")
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
-                ) {
-                    println("got response ")
-                    if (response.code() == 200) {
-                        println("respomnse code is 201")
-                        if (response.body() != null) {
-                            println("sending translation")
-                            SharedPrefManager.getInstance(this@TranslateActivity).clear()
-                            val intent = Intent(this@TranslateActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Error", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
-    }
-
-
 
 
     @SuppressLint("SetTextI18n")
@@ -230,18 +181,16 @@ class TranslateActivity : AppCompatActivity() {
 
 
     private fun postData(){
-        System.out.println("Post Data method")
+        println("Post Data method")
         val initialText = translatedTv.text.toString().trim()
         val language = language_selector.selectedItem.toString()
         val translatedText = inputToTranslate.text.toString().trim()
 
 
-
-
         var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
-        System.out.println(token)
+        println(token)
 
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)
+        RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)
         )
             ?.enqueue(object: Callback<queryResponse> {
                 override fun onFailure(call: Call<queryResponse>, t: Throwable) {
@@ -276,5 +225,3 @@ class TranslateActivity : AppCompatActivity() {
 private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
 
 }
-
-

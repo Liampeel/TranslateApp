@@ -62,30 +62,33 @@
     <EditText
         android:id="@+id/ocrResultEt"
         android:layout_width="384dp"
-        android:layout_height="305dp"
+        android:layout_height="250dp"
         android:layout_below="@+id/actionContainer"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background"
         android:gravity="top"
-        android:hint="Detected text will appear here"
+        android:hint="@string/detected_text_will_appear_here"
         android:inputType="textMultiLine"
         android:padding="10dp"
         android:textColor="@color/login_form_details"
-        android:textColorHint="@color/login_form_details" />
+        android:textColorHint="@color/login_form_details"
+        android:autofillHints="" />
 
-    <TextView
-        android:id="@+id/detected_language"
-        android:textColor="@color/login_form_details"
+
+    <Button
+        android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/ocrResultEt"
-        android:layout_alignRight="@+id/ocrResultEt"
-        android:layout_alignBottom="@+id/ocrResultEt"
-        android:layout_marginEnd="160dp"
-        android:textSize="18sp"
-        android:layout_marginRight="160dp"
-        android:layout_marginBottom="162dp"
-        android:text="" />
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="620dp"
+        android:layout_marginRight="138dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background"
+        android:text="@string/logout"
+        android:textColor="@color/colorAccent"
+        tools:ignore="RtlHardcoded" />
 
 
 </RelativeLayout>
