@@ -24,6 +24,7 @@ import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.common.graph.Graph
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -114,6 +115,11 @@ class OCRActivity : AppCompatActivity() {
         //set an onclick listener on the button to trigger the @processImage method
         processImageBtn.setOnClickListener {
             processImage(processImageBtn)
+        }
+
+        gotograph.setOnClickListener {
+           val intent = Intent(this, GraphActivity::class.java)
+            startActivity(intent)
         }
 
         translateButton.setOnClickListener {

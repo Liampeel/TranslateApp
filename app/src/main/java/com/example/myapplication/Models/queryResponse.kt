@@ -1,3 +1,7 @@
 package com.example.myapplication.Models
 
-data class queryResponse(val initialText: String, val language: String, val translatedText: String, val date_created: String, val id: Int)
+import com.google.gson.annotations.SerializedName
+
+data class queryResponse(@SerializedName("initialText") val initialText: String, @SerializedName("language")val language: String, @SerializedName("translatedText")val translatedText: String,
+                         @SerializedName("date_created")val date_created: String, @SerializedName("id")val id: Int) {
+}

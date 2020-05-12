@@ -8,7 +8,7 @@ class loginClient {
     object RetrofitClient {
 
 
-        private val BASE_URL = "http://192.168.1.108:5000/"
+        private val BASE_URL = "http://kieronhushon.pythonanywhere.com/"
 
 
         val instance: API by lazy {

@@ -23,6 +23,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".TranslateActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".GraphActivity"></activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
 
