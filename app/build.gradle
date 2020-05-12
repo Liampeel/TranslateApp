@@ -56,6 +56,9 @@ android {
     }
 }
 
+repositories{
+    maven { url 'https://jitpack.io' }
+}
 
 dependencies {
 
@@ -86,7 +89,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8'
-
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation('com.google.cloud:google-cloud-translate:1.94.5') {
         exclude group: 'org.apache.httpcomponents'
