@@ -26,11 +26,12 @@ from rest_framework.views import APIView
 # Create your views here.
 import json
 
+
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
-        'snippets': reverse('snippet-list', request=request, format=format)
+        'queries': reverse('query-list', request=request, format=format)
     })
 
 
@@ -48,30 +49,43 @@ def create_user(request, format=None):
             if password != password2:
                 return HttpResponse('Passwords do not match', status=400)
 
-
             user = User.objects.create_user(username=username, email=email, password=password)
-            #token = Token.objects.create(user=user)
-            #print(token.key)
+            # token = Token.objects.create(user=user)
+            # print(token.key)
             user.save()
-            return_data = {"username": username, "email": email, "Unique ID":user.id}#, "token": token.key}
+            return_data = {"username": username, "email": email, "Unique ID": user.id}  # , "token": token.key}
             json_return_data_dump = json.dumps(return_data)
             json_return_data = json.loads(json_return_data_dump)
             return JsonResponse(return_data)
 
         else:
-            return HttpResponse('Invalid request', status=400)
+            return JsonResponse('Invalid request', status=400)
     else:
-        return HttpResponse('Invalid request', status=400)
+        return JsonResponse('Invalid request', status=400)
 
+
+@csrf_exempt
 def logout_request(request):
-    if request.user.is_authenticated:
-        request.user.auth_token.delete()
-        logout(request)
+    # if request.user.is_authenticated:
 
-        print(request, "Logged out successfully!")
-        return HttpResponse("Logged out successfully")
-    else:
-        return HttpResponse("Need to be logged in to log out")
+    logout(request)
+
+    response = {"response": "Logged out"}
+    headers = request.META
+    print(str(headers))
+
+    print(request, "Logged out successfully!")
+
+    # request.user.auth_token.delete()
+    return HttpResponse(response, status=200)
+
+
+# else:
+#     headers = request.META
+#     print(str(headers))
+#     print("failed logout")
+#     failResponse = {"response": "Failed to log out"}
+#     return HttpResponse(headers, status=400)
 
 @csrf_exempt
 def user_login(request):
@@ -82,31 +96,50 @@ def user_login(request):
             username = body['username']
             password = body['password']
             user = authenticate(username=username, password=password)
+            is_tokened = Token.objects.filter(user=user).exists()
+            print("token = " + str(is_tokened))
             if user:
                 if user.is_active:
-                    token = Token.objects.create(user=user)
-                    login(request, user)
-                    return_data = {"token": token.key, "unique_ID": user.id}
-                    return JsonResponse(return_data)
+                    if is_tokened:
+
+                        token = Token.objects.get(user=user)
+
+                        print(token)
+
+                        string_token = (str(token))
+
+                        login(request, user)
+                        return_data = {"token": string_token, "unique_ID": user.id}
+                        return JsonResponse(return_data)
+
+                    elif not is_tokened:
+                        print("creating new token not is tokened")
+                        token = Token.objects.create(user=user)
+                        print(token)
+                        login(request, user)
+                        return_data = {"token": token.key, "unique_ID": user.id}
+                        return JsonResponse(return_data)
                 else:
-                    return HttpResponse("Your account was inactive.")
+                    response = {"response": "your account was inactive"}
+                    return JsonResponse(response, status=400)
             else:
                 print("Someone tried to login and failed.")
                 print("They used username: {} and password: {}".format(username, password))
-                return HttpResponse("Invalid login details given")
+                response = {"response": "invalid login details given"}
+                return JsonResponse(response, status=400)
         else:
-            return HttpResponse('Invalid')
+            response = {"response": "Invalid"}
+            return JsonResponse(response, status=400)
     else:
-        return HttpResponse('Invalid')
-
-
-
+        response = {"response": "Invalid"}
+        return JsonResponse(response, status=400)
 
 
 class QueryList(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -115,6 +148,7 @@ class QueryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Query.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = QuerySerializer
+
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()

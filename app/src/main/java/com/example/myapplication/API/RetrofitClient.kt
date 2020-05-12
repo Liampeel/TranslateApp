@@ -7,44 +7,137 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
+/**
+ * HTTP Client for making the API calls to the API
+ * Includes client for registering a user, logging in, and another client for authenticated requests
+ */
 class RetrofitClient {
-
-    private  val BASE_URL = "http://192.168.1.108:5000/"
-
-    private lateinit var apiService: API
-
-    fun getApiService(context: Context): API {
-
-        // Initialize ApiService if not initialized yet
-        if (!::apiService.isInitialized) {
-            val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttpClient(context)) // Add our Okhttp client
-                .build()
-
-            apiService = retrofit.create(API::class.java)
-        }
-
-        return apiService
-    }
+    private var retrofit: Retrofit
 
     /**
-     * Initialize OkhttpClient with our interceptor
+     * Basic client for registering user
      */
-    private fun okhttpClient(context: Context): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(AuthenticationInterceptor(context))
+    constructor() {
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
+    /**
+     * Client used for logging in
+     * uses the interceptor to add a token by converting the email and password
+     * @param email
+     * @param password
+     */
+
+    /**
+     * Client using the stored token to make an authenticated request
+     * @param bearer
+     */
+     private constructor(bearer: String) {
+        val client: OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(AuthenticationInterceptor(bearer))
+            .build()
+
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val api: API
+        get() = retrofit.create(API::class.java)
+
+    companion object {
+        /**
+         * CHANGE IP HERE TO THE IP THAT SERVER IS RUNNING ON
+         */
+        private const val BASE_URL = "http://192.168.1.108:5000/"
+        private var mInstance: RetrofitClient? = null
+        private var mInstanceToken: RetrofitClient? = null
+
+        // basic instance used for registration
+        @get:Synchronized
+        val instance: RetrofitClient?
+            get() {
+                if (mInstance == null) {
+                    mInstance = RetrofitClient()
+                }
+                return mInstance
+            }
+
+
+        @Synchronized
+        fun getInstanceToken(bearer: String): RetrofitClient? {
+            if (mInstanceToken == null) {
+                mInstanceToken = RetrofitClient(bearer)
+            }
+            return mInstanceToken
+        }
+    }
 }
 
 
-//val instance: API by lazy{
-//    val retrofit = Retrofit.Builder()
-//        .baseUrl(BASE_URL)
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .client(okHttpClient)
-//        .build()
+
+
+
+
+
+
+
+
+
+
+//class RetrofitClient {
 //
-//    retrofit.create(API::class.java)
+//    private  val BASE_URL = "http://192.168.1.108:5000/"
+//
+//    private lateinit var apiService: API
+//
+//    fun getApiService(context: Context): API {
+//
+//        // Initialize ApiService if not initialized yet
+//        if (!::apiService.isInitialized) {
+//            val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(okhttpClient(context)) // Add our Okhttp client
+//                .build()
+//
+//            apiService = retrofit.create(API::class.java)
+//        }
+//
+//        return apiService
+//    }
+//
+//    /**
+//     * Initialize OkhttpClient with our interceptor
+//     */
+//    private fun okhttpClient(context: Context): OkHttpClient {
+//        return OkHttpClient.Builder()
+//            .addInterceptor(AuthenticationInterceptor(context))
+//            .build()
+//    }
+//
+//    fun authAPI(): API {
+//
+//        // Initialize ApiService if not initialized yet
+//        if (!::apiService.isInitialized) {
+//            val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//
+//            apiService = retrofit.create(API::class.java)
+//        }
+//
+//        return apiService
+//    }
+//
+//    /**
+//     * Initialize OkhttpClient with our interceptor
+//     */
+//
+//}
+//

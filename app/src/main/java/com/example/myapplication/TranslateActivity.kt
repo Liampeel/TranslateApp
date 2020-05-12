@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
 import com.example.myapplication.Models.queryData
@@ -25,6 +26,7 @@ import com.google.cloud.translate.TranslateOptions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +40,7 @@ class TranslateActivity : AppCompatActivity() {
     lateinit var input: TextView
     lateinit var langDetected: TextView
     lateinit var postQuery: Button
+    lateinit var logoutButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +49,7 @@ class TranslateActivity : AppCompatActivity() {
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
         postQuery = findViewById(R.id.postQuery)
+        logoutButton = findViewById(R.id.logoutButton)
 
 
         inputToTranslate.movementMethod = ScrollingMovementMethod()
@@ -86,6 +90,12 @@ class TranslateActivity : AppCompatActivity() {
             postData()
         }
 
+        logoutButton.setOnClickListener {
+            logout()
+        }
+
+
+
 
         translateButton.setOnClickListener {
 
@@ -108,6 +118,55 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun logout() {
+
+
+        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+
+
+
+        System.out.println(token)
+
+        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
+
+            ?.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    println("No response from server")
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
+                ) {
+                    println("got response ")
+                    if (response.code() == 200) {
+                        println("respomnse code is 201")
+                        if (response.body() != null) {
+                            println("sending translation")
+                            SharedPrefManager.getInstance(this@TranslateActivity).clear()
+                            val intent = Intent(this@TranslateActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext, "Error", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            })
+    }
+
+
+
+
+
+
+
+
+
 
     @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
@@ -178,17 +237,22 @@ class TranslateActivity : AppCompatActivity() {
 
     private fun postData(){
         System.out.println("Post Data method")
-        val user_query = translatedTv.text.toString().trim()
+        val initialText = translatedTv.text.toString().trim()
+        val language = language_selector.selectedItem.toString()
+        val translatedText = inputToTranslate.text.toString().trim()
+
+
 
         val RetrofitClient = RetrofitClient()
-        val sessionManager = SharedPrefManager(this)
 
-        System.out.println("Token ${sessionManager.fetchAuthToken()}")
 
-        RetrofitClient.getApiService(this)
-            .queries(queryData(user_query)
+
+        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+        System.out.println(token)
+
+        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)
         )
-            .enqueue(object: Callback<queryResponse> {
+            ?.enqueue(object: Callback<queryResponse> {
                 override fun onFailure(call: Call<queryResponse>, t: Throwable) {
                     Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
                     println("No response from server")
@@ -217,5 +281,9 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     }
+
+private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
+
+}
 
 

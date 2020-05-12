@@ -1,3 +1,3 @@
 package com.example.myapplication.Models
 
-data class queryResponse(val user_query: String, val owner: String)
+data class queryResponse(val initialText: String, val language: String, val translatedText: String, val date_created: String, val id: Int)

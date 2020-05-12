@@ -14,17 +14,48 @@ import retrofit2.Response
 import android.widget.Toast
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
+import com.example.myapplication.API.loginClient
 import com.example.myapplication.Models.DefaultResponse
 import com.example.myapplication.Models.loginData
 import com.example.myapplication.Models.loginResponse
 
 import kotlinx.android.synthetic.main.register_user.*
+import okhttp3.ResponseBody
 
 
-    lateinit var username: EditText
+lateinit var username: EditText
     lateinit var password: EditText
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onDestroy(){
+        super.onDestroy()
+        System.out.println("destroy")
+        RetrofitClient.instance?.api?.logout()?.enqueue(object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(
+                    applicationContext, "Failed", Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.code() == 200) {
+                    println("respomnse code is 200")
+                    if (response.body() != null) {
+                        println("logging out")
+                        Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    Toast.makeText(
+                        applicationContext, "Error", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        })
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,19 +98,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (password.isEmpty()) {
-            editTextPassword.error = "Email required"
+            editTextPassword.error = "Password is empty"
             editTextPassword.requestFocus()
 
         }
 
 
-        val RetrofitClient = RetrofitClient()
-        val sessionManager = SharedPrefManager(this)
 
-        RetrofitClient.getApiService(this).loginUser(loginData(username, password))
+
+
+        
+
+        loginClient.RetrofitClient.instance.loginUser(loginData(username, password))
             .enqueue(object : Callback<loginResponse> {
                 override fun onFailure(call: Call<loginResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(
@@ -87,20 +120,20 @@ class MainActivity : AppCompatActivity() {
                     response: Response<loginResponse>
                 ) {
                     if (response.code() == 200) {
-                            if (response.body() != null) {
-                                val loginResponse = response.body()
-                                Toast.makeText(applicationContext, loginResponse!!.token, Toast.LENGTH_SHORT)
-                                    .show()
-                                sessionManager.saveAuthToken(loginResponse!!.token)
+                        if (response.body() != null) {
+                            val loginResponse = response.body()
+                            Toast.makeText(applicationContext, loginResponse!!.token, Toast.LENGTH_SHORT)
+                                .show()
+                            SharedPrefManager.getInstance(applicationContext).saveAuthToken(loginResponse!!.token)
 
-                            }
-                        } else {
-                            Toast.makeText(applicationContext, "error logging in", Toast.LENGTH_SHORT
-                            ).show()
                         }
+                    } else {
+                        Toast.makeText(applicationContext, "error logging in", Toast.LENGTH_SHORT
+                        ).show()
                     }
+                }
 
-                })
+            })
     }
 
     }
