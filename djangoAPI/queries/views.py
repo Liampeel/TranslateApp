@@ -23,6 +23,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.conf import settings
 # Create your views here.
 import json
 
@@ -36,7 +37,6 @@ def api_root(request, format=None):
 
 @csrf_exempt
 def create_user(request, format=None):
-    print("Non authorised")
     if request.method == 'POST':
         if request.body is not None:
             body_unicode = request.body.decode('utf-8')
@@ -63,11 +63,11 @@ def create_user(request, format=None):
     else:
         return HttpResponse('Invalid request', status=400)
 
+@csrf_exempt
 def logout_request(request):
     if request.user.is_authenticated:
         request.user.auth_token.delete()
         logout(request)
-
         print(request, "Logged out successfully!")
         return HttpResponse("Logged out successfully")
     else:
@@ -82,8 +82,11 @@ def user_login(request):
             username = body['username']
             password = body['password']
             user = authenticate(username=username, password=password)
+            is_tokened = Token.objects.filter(user=user).exists()
             if user:
                 if user.is_active:
+                    if is_tokened:
+                        request.user.auth_token.delete()
                     token = Token.objects.create(user=user)
                     login(request, user)
                     return_data = {"token": token.key, "unique_ID": user.id}
