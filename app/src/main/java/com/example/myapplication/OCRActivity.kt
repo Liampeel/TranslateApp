@@ -6,23 +6,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.myapplication.API.RetrofitClient
@@ -41,7 +36,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.lang.Exception
-import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
@@ -79,20 +73,17 @@ class OCRActivity : AppCompatActivity() {
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
     lateinit var translateButton: Button
-    lateinit var image_uri: Uri
     private val IMAGE_PICK_GALLERY_CODE = 1000
     private val IMAGE_PICK_CAMERA_CODE = 1001
     private val CAMERA_REQUEST_CODE = 200
     private val STORAGE_REQUEST_CODE = 400
-    var PERMISSION_REQ_CODE: Int = 100
     var isPermissionsGranted: Boolean = false
     var permissions: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
-    lateinit var currentPhotoPath: String
 
     lateinit var uriFinale: Uri
 
-    var cameraPermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
-    var storagePermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE)
+    private var cameraPermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
+    private var storagePermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +97,7 @@ class OCRActivity : AppCompatActivity() {
 
         //set an onclick listener on the button to trigger the @pickImage() method
         selectImageBtn.setOnClickListener {
-            showImageImportDialog()
+            imageSelector()
         }
 
         //set an onclick listener on the button to trigger the @processImage method
@@ -125,24 +116,9 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
-
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK) {
-            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                CropImage.activity(data!!.data)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(this)
-
-            }
+        if (resultCode == RESULT_OK) {
 
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 CropImage.activity(data!!.data)
@@ -154,6 +130,7 @@ class OCRActivity : AppCompatActivity() {
                 val result = CropImage.getActivityResult(data)
                 if(resultCode == Activity.RESULT_OK)
                     try {
+
                     val bitmap = BitmapFactory.decodeFile(result.uri.path)
                     ocrImage.setImageBitmap(bitmap)
                 } catch(e: Exception){
@@ -204,43 +181,21 @@ class OCRActivity : AppCompatActivity() {
         }
 
     }
+    
 
-
-    private fun showImageImportDialog() {
-        val items: Array<String> = arrayOf("Camera", " Gallery")
-        val dialog =
-            AlertDialog.Builder(this)
-        //set title
-        dialog.setTitle("Select Image")
-        dialog.setItems(items) { dialog, which ->
-            println(which == 0)
-            println(which == 1)
-            if (which == 0) {
-                pickCamera()
-            }
-            else if (which == 1) {
-                pickImage()
-            }
-        }
-        dialog.create().show()
-    }
-
-
-    private fun pickCamera() {
-
+    private fun imageSelector() {
         if (!checkCameraPermission()) {
             requestCameraPermission()
         } else {
-            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(callCameraIntent,IMAGE_PICK_CAMERA_CODE)
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this)
             println("pickCamera")
         }
     }
 
 
-
-
-    fun pickImage() {
+    private fun pickImage() {
         if (!checkStoragePermission()) {
             requestStoragePermission()
         } else {
@@ -256,7 +211,7 @@ class OCRActivity : AppCompatActivity() {
     }
 
     private fun requestStoragePermission() {
-        System.out.println("Requesting Storage")
+        println("Requesting Storage")
         ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE
         )
     }
@@ -266,11 +221,10 @@ class OCRActivity : AppCompatActivity() {
      * @return
      */
     private fun checkStoragePermission(): Boolean {
-        var result1: Boolean = ContextCompat.checkSelfPermission(
+        return ContextCompat.checkSelfPermission(
             this,
             storagePermission[0]
         ) == PackageManager.PERMISSION_GRANTED
-        return result1
 
     }
 
@@ -278,7 +232,7 @@ class OCRActivity : AppCompatActivity() {
      * request permission to access phones camera
      */
     private fun requestCameraPermission() {
-        System.out.println("Requesting Storage")
+        println("Requesting Storage")
 
         ActivityCompat.requestPermissions(
             this,
@@ -327,7 +281,7 @@ class OCRActivity : AppCompatActivity() {
                         PackageManager.PERMISSION_GRANTED
                 if (cameraAccepted && writeStorageAccepted) {
                     System.out.println("Request Camera")
-                    pickCamera()
+                    imageSelector()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
@@ -344,7 +298,6 @@ class OCRActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 
 

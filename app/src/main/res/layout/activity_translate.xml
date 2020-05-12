@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".TranslateActivity">
 
+
     <TextView
         android:id="@+id/inputToTranslate"
         android:layout_width="299dp"
@@ -38,22 +39,17 @@
         tools:ignore="TextViewEdits" />
 
 
+    <!-- Delete button background on spinner for other UI view-->
     <Spinner
+        style="@style/Widget.AppCompat.DropDownItem.Spinner"
         android:id="@+id/language_selector"
         android:layout_width="192dp"
         android:layout_gravity="center_horizontal"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:background="@drawable/button_background"
+        android:theme="@style/spinnerTheme"/>
 
 
-    <TextView
-        android:id="@+id/spinTing"
-        android:layout_width="262dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@color/login_form_details"
-        android:textColorHint="#FFFFFF" />
 
     <Button
         android:id="@+id/translateButton"
