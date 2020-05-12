@@ -148,12 +148,6 @@ class TranslateActivity : AppCompatActivity() {
 
 
 
-
-
-
-
-
-
     @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
         val languageIdentifier = FirebaseNaturalLanguage.getInstance().languageIdentification
@@ -227,9 +221,6 @@ class TranslateActivity : AppCompatActivity() {
         val language = language_selector.selectedItem.toString()
         val translatedText = inputToTranslate.text.toString().trim()
 
-
-
-        val RetrofitClient = RetrofitClient()
 
 
 
