@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
@@ -15,12 +14,8 @@ import android.widget.Toast
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
 import com.example.myapplication.API.loginClient
-import com.example.myapplication.Models.DefaultResponse
 import com.example.myapplication.Models.loginData
 import com.example.myapplication.Models.loginResponse
-import io.grpc.netty.shaded.io.netty.util.Version.main
-
-import kotlinx.android.synthetic.main.register_user.*
 import okhttp3.ResponseBody
 
 
@@ -97,10 +92,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun userLogin() {
-//        val intent = Intent(this, OCRActivity::class.java)
-//        startActivity(intent)
 
-        var loggedIn = false
+        var loggedIn: Boolean
 
         val username = usernameText.text.toString()
         val password = editTextPassword.text.toString().trim()
@@ -139,23 +132,23 @@ class MainActivity : AppCompatActivity() {
 
                                 loggedIn = true
 
-//                            loginResponse!!.token
                                 Toast.makeText(
                                     applicationContext,
                                     R.string.loginSuccess,
                                     Toast.LENGTH_SHORT
                                 ).show()
 
+                                println("Token generated: " + loginResponse!!.token)
+
                                 if (loggedIn) {
                                     startActivity(intent)
+                                    usernameText.setText("")
+                                    editTextPassword.setText("")
                                 }
 
-
-                                if (loginResponse != null) {
-                                    SharedPrefManager.getInstance(applicationContext).saveAuthToken(
-                                        loginResponse.token
-                                    )
-                                }
+                                SharedPrefManager.getInstance(applicationContext).saveAuthToken(
+                                    loginResponse.token
+                                )
                             }
 
                         } else {
