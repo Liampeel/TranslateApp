@@ -53,7 +53,7 @@ def create_user(request, format=None):
             # token = Token.objects.create(user=user)
             # print(token.key)
             user.save()
-            return_data = {"username": username, "email": email, "Unique ID": user.id}  # , "token": token.key}
+            return_data = {"username": username, "email": email, "id": user.id}  # , "token": token.key}
             json_return_data_dump = json.dumps(return_data)
             json_return_data = json.loads(json_return_data_dump)
             return JsonResponse(return_data)
@@ -109,7 +109,7 @@ def user_login(request):
                         string_token = (str(token))
 
                         login(request, user)
-                        return_data = {"token": string_token, "unique_ID": user.id}
+                        return_data = {"token": string_token, "id": user.id}
                         return JsonResponse(return_data)
 
                     elif not is_tokened:
@@ -117,7 +117,7 @@ def user_login(request):
                         token = Token.objects.create(user=user)
                         print(token)
                         login(request, user)
-                        return_data = {"token": token.key, "unique_ID": user.id}
+                        return_data = {"token": token.key, "id": user.id}
                         return JsonResponse(return_data)
                 else:
                     response = {"response": "your account was inactive"}

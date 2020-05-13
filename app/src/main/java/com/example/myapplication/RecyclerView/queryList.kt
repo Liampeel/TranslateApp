@@ -1,4 +1,4 @@
-package com.example.myapplication.TEST
+package com.example.myapplication.RecyclerView
 
 import android.graphics.Color
 import android.os.Bundle
@@ -12,9 +12,7 @@ import com.example.myapplication.Models.queryListResponse
 import com.example.myapplication.Models.queryResponse
 import com.example.myapplication.R
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import kotlinx.android.synthetic.main.activity_query_list.*
-import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 

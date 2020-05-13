@@ -22,15 +22,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".TEST.queryDetails"
+            android:name=".RecyclerView.queryDetails"
             android:label="Details of Submission"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".TEST.queryList" />
+                android:value=".RecyclerView.queryList" />
         </activity>
         <activity
-            android:name=".TEST.queryList"
+            android:name=".RecyclerView.queryList"
             android:label="History of Translations"/>
         <activity android:name=".TranslateActivity" />
         <activity android:name=".RegisterActivity" />

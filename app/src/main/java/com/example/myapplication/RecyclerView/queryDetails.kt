@@ -1,17 +1,13 @@
-package com.example.myapplication.TEST
+package com.example.myapplication.RecyclerView
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
 import com.example.myapplication.OCRActivity
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.activity_query_details.*
-import kotlinx.android.synthetic.main.activity_query_list.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
