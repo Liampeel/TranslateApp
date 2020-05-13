@@ -16,11 +16,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="84e24579-8ab1-4604-8746-6e81d131bb40" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_translate.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_translate.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/RegisterActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/RegisterActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/register_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/register_user.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -620,7 +619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589374256563</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Small UI changes">
+      <created>1589375764155</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1589375764155</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TodoView">
@@ -649,7 +655,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../../../../.." />
     </ignored-roots>
-    <MESSAGE value="Created Connection to API endpoint. Awaiting access token..." />
     <MESSAGE value="UI clean up for home activity" />
     <MESSAGE value="Connected to eBay search API" />
     <MESSAGE value="API outputs top result" />
@@ -674,7 +679,8 @@
     <MESSAGE value="Parsing data from API for graph" />
     <MESSAGE value="commiting so I can pull..." />
     <MESSAGE value="Graph UI amendments" />
-    <option name="LAST_COMMIT_MESSAGE" value="Graph UI amendments" />
+    <MESSAGE value="Small UI changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small UI changes" />
   </component>
   <component name="masterDetails">
     <states>
