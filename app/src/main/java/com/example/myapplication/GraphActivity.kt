@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.API.RetrofitClient
@@ -10,11 +9,8 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.google.gson.Gson
+import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_graph.*
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_translate.*
-import okhttp3.internal.lockAndWaitNanos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,13 +50,13 @@ class GraphActivity : AppCompatActivity() {
                     if (body != null) {
                         for(i in 0 until body.listoflangs.size()) {
                             val format: String = body.listoflangs[i].toString().replace("{\"","").replace("\":"," ").replace("}","")
+
                             val language = format.replace("[^A-Za-z]".toRegex(), "")
                             arrayOfLanguages.add(language)
 
                             val num = format.replace("[^0-9]".toRegex(), "")
                             arrayOfOccurence.add(num.toInt())
                         }
-
                         for(i in 0 until arrayOfLanguages.size) {
                             println(arrayOfLanguages[i])
                             println(arrayOfOccurence[i])
@@ -85,28 +81,43 @@ class GraphActivity : AppCompatActivity() {
 
     private fun setBarChart(numberList : List<Int>, languageList : List<String>) {
         val entries = ArrayList<BarEntry>()
+
+        var count = 1
         for(element in numberList) {
-            entries.add(BarEntry(element.toFloat(), element.toFloat()))
+            println(element)
+            entries.add(BarEntry(count.toFloat(), element.toFloat()))
+            count++
         }
 
-        val barDataSet = BarDataSet(entries, "Cells")
+        val barDataSet = BarDataSet(entries, " ")
 
 
-        val xAxis: XAxis = bargraph.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
+        val xAxis: XAxis = bargraph.getXAxis()
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+
+        val formatter: ValueFormatter =
+            object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return languageList.get(value.toInt() - 1)
+                }
+            }
+
+        xAxis.granularity = 1f // minimum axis-step (interval) is 1
+
+        xAxis.valueFormatter = formatter
 
 
        // xAxis.valueFormatter = IAxisValueFormatter() { value, axis -> labels.get(value.toInt()) } as ValueFormatter?
-        val languageBarData = ArrayList<BarEntry>()
 
 
         val data = BarData(barDataSet)
         bargraph.data = data // set the data and list of lables into chart
-
-        bargraph.description.text = "Languages"  // set the description
-        barDataSet.color = resources.getColor(R.color.colorAccent)
-
+        barDataSet.color = resources.getColor(R.color.colorPrimary)
+        bargraph.setFitBars(true)
+        bargraph.description.text = " "
+//        bargraph.axisLeft.textColor = R.color.login_form_details; // left y-axis
+//        bargraph.xAxis.textColor = R.color.login_form_details;
+//        bargraph.legend.textColor = R.color.login_form_details;
         bargraph.animateY(5000)
     }
 
