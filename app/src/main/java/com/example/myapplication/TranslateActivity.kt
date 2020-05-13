@@ -3,10 +3,16 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.StrictMode
+import android.text.method.ScrollingMovementMethod
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
@@ -48,6 +54,7 @@ class TranslateActivity : AppCompatActivity() {
         logoutButton = findViewById(R.id.logoutButton)
 
 
+        inputToTranslate.movementMethod = ScrollingMovementMethod()
 
         val translate: String? = intent.getStringExtra("translate")
         input.text = translate
@@ -56,9 +63,8 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
-
-        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "el", "bg", "hu",
-            "id", "ja", "ru", "sv", "tr", "th", "vi")
+        val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "fi", "bg", "hu",
+            "ar", "fa", "id", "hi", "ja", "ru", "sv", "tr", "th", "vi")
 
         val fullLanguageText = arrayListOf<String>()
 
@@ -67,10 +73,20 @@ class TranslateActivity : AppCompatActivity() {
         }
 
 
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, fullLanguageText)
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fullLanguageText)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        language_selector.adapter = adapter
 
-        language_selector.adapter = aa
+
+        language_selector.background.setColorFilter(resources.getColor(R.color.login_form_details), PorterDuff.Mode.SRC_ATOP)
+
+        language_selector.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View,
+                position: Int, id: Long) {
+                (parent.getChildAt(0) as TextView).setTextColor(Color.WHITE)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         postQuery.setOnClickListener {
             postData()
@@ -84,6 +100,7 @@ class TranslateActivity : AppCompatActivity() {
 
 
         translateButton.setOnClickListener {
+
             val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
 
             if(chosenLanguage.isEmpty()) {
@@ -104,48 +121,6 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun logout() {
-
-
-        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
-
-
-
-        System.out.println(token)
-
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
-
-            ?.enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                    println("No response from server")
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
-                ) {
-                    println("got response ")
-                    if (response.code() == 200) {
-                        println("respomnse code is 201")
-                        if (response.body() != null) {
-                            println("sending translation")
-                            SharedPrefManager.getInstance(this@TranslateActivity).clear()
-                            val intent = Intent(this@TranslateActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Error", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
-    }
-
-
 
 
     @SuppressLint("SetTextI18n")
@@ -216,18 +191,16 @@ class TranslateActivity : AppCompatActivity() {
 
 
     private fun postData(){
-
+        println("Post Data method")
         val initialText = translatedTv.text.toString().trim()
         val language = language_selector.selectedItem.toString()
         val translatedText = inputToTranslate.text.toString().trim()
 
 
-
-
         var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
-        System.out.println(token)
+        println(token)
 
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)
+        RetrofitClient.getInstanceToken(token)?.api?.queries(queryData(translatedText, language, initialText)
         )
             ?.enqueue(object: Callback<queryResponse> {
                 override fun onFailure(call: Call<queryResponse>, t: Throwable) {
@@ -258,9 +231,3 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     }
-
-private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
-
-}
-
-

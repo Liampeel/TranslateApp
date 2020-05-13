@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -16,18 +17,34 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import com.example.myapplication.RecyclerView.queryList
+import androidx.fragment.app.FragmentActivity
+import com.example.myapplication.API.RetrofitClient
+import com.example.myapplication.API.SharedPrefManager
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.common.graph.Graph
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_ocr.*
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 import java.lang.Exception
+import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
@@ -45,31 +62,36 @@ class OCRActivity : AppCompatActivity() {
     var PERMISSION_REQ_CODE: Int = 100
     var isPermissionsGranted: Boolean = false
     var permissions: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
-    lateinit var currentPhotoPath: String
+    lateinit var logoutButton: Button
 
     lateinit var uriFinale: Uri
 
-    var cameraPermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
-    var storagePermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE)
+    private var cameraPermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
+    private var storagePermission: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocr)
 
-        resultEditText = findViewById(R.id.ocrResultEt)
+        resultEditText = findViewById(R.id.ocrResult)
         ocrImage = findViewById(R.id.ocrImageView)
         translateButton = findViewById(R.id.goToTranslate)
 
 
         //set an onclick listener on the button to trigger the @pickImage() method
         selectImageBtn.setOnClickListener {
-            showImageImportDialog()
+            imageSelector()
         }
 
         //set an onclick listener on the button to trigger the @processImage method
         processImageBtn.setOnClickListener {
             processImage(processImageBtn)
+        }
+
+        gotograph.setOnClickListener {
+           val intent = Intent(this, GraphActivity::class.java)
+            startActivity(intent)
         }
 
         translateButton.setOnClickListener {
@@ -80,6 +102,7 @@ class OCRActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        logoutButton = findViewById(R.id.logoutButton)
         recycler.setOnClickListener {
             val intent = Intent(this, queryList::class.java)
             startActivity(intent)
@@ -91,6 +114,9 @@ class OCRActivity : AppCompatActivity() {
 
 
 
+        logoutButton.setOnClickListener {
+            logout()
+        }
 
 
 
@@ -99,13 +125,7 @@ class OCRActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK) {
-            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                CropImage.activity(data!!.data)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(this)
-
-            }
+        if (resultCode == RESULT_OK) {
 
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 CropImage.activity(data!!.data)
@@ -117,6 +137,7 @@ class OCRActivity : AppCompatActivity() {
                 val result = CropImage.getActivityResult(data)
                 if(resultCode == Activity.RESULT_OK)
                     try {
+
                     val bitmap = BitmapFactory.decodeFile(result.uri.path)
                     ocrImage.setImageBitmap(bitmap)
                 } catch(e: Exception){
@@ -124,6 +145,44 @@ class OCRActivity : AppCompatActivity() {
                     }
             }
     }
+
+
+
+
+    private fun logout() {
+        val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+        println(token)
+        RetrofitClient.getInstanceToken(token)?.api?.logout()
+
+            ?.enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                    println("No response from server")
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
+                ) {
+                    println("got response ")
+                    if (response.code() == 200) {
+                        println("Respose code is ${response.code()}")
+                        if (response.body() != null) {
+                            println("sending translation")
+                            SharedPrefManager.getInstance(this@OCRActivity).clear()
+                            val intent = Intent(this@OCRActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(applicationContext, "Logged out", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext, "Error", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            })
+    }
+
 
     @SuppressLint("SetTextI18n")
     fun processImage(v: View) {
@@ -169,33 +228,13 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
-    private fun showImageImportDialog() {
-        val items: Array<String> = arrayOf("Camera", " Gallery")
-        val dialog =
-            AlertDialog.Builder(this)
-        //set title
-        dialog.setTitle("Select Image")
-        dialog.setItems(items) { dialog, which ->
-            println(which == 0)
-            println(which == 1)
-            if (which == 0) {
-                pickCamera()
-            }
-            else if (which == 1) {
-                pickImage()
-            }
-        }
-        dialog.create().show()
-    }
-
-
-    private fun pickCamera() {
-
+    private fun imageSelector() {
         if (!checkCameraPermission()) {
             requestCameraPermission()
         } else {
-            val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(callCameraIntent,IMAGE_PICK_CAMERA_CODE)
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this)
             println("pickCamera")
         }
     }
@@ -229,7 +268,7 @@ class OCRActivity : AppCompatActivity() {
      * @return
      */
     private fun checkStoragePermission(): Boolean {
-        var result1: Boolean = ContextCompat.checkSelfPermission(
+        return ContextCompat.checkSelfPermission(
             this,
             storagePermission[0]
         ) == PackageManager.PERMISSION_GRANTED
@@ -289,8 +328,8 @@ class OCRActivity : AppCompatActivity() {
                 val writeStorageAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 if (cameraAccepted && writeStorageAccepted) {
-
-                    pickCamera()
+                    System.out.println("Request Camera")
+                    imageSelector()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
@@ -299,7 +338,7 @@ class OCRActivity : AppCompatActivity() {
                 val writeStorageAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 if (writeStorageAccepted) {
-
+                    System.out.println("Request Image")
                     pickImage()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()

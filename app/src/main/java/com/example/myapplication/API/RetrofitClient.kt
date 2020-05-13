@@ -55,7 +55,7 @@ class RetrofitClient {
         /**
          * CHANGE IP HERE TO THE IP THAT SERVER IS RUNNING ON
          */
-        private const val BASE_URL = "http://192.168.1.108:5000/"
+        private const val BASE_URL = "http://kieronhushon.pythonanywhere.com/"
         private var mInstance: RetrofitClient? = null
         private var mInstanceToken: RetrofitClient? = null
 

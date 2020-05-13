@@ -32,13 +32,27 @@
             app:layout_constraintGuide_end="24dp" />
 
 
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            app:srcCompat="@drawable/ic_android_white_24dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+            app:layout_constraintStart_toStartOf="@+id/guideline_left"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO"
+            tools:ignore="VectorDrawableCompat" />
+
+
         <EditText
             android:id="@+id/usernameText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="204dp"
+            android:layout_marginTop="236dp"
             android:background="@drawable/edit_text"
-            android:hint="Email Address"
+            android:hint="Username"
             android:inputType="textEmailAddress"
             android:padding="16dp"
             android:textColor="@color/login_form_details"
@@ -79,18 +93,6 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
-        <TextView
-            android:id="@+id/forgotten_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-
-            android:text="Forgotten Password?"
-            android:textColor="@color/login_form_details"
-            app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/btn_login" />
-
         <View
             android:id="@+id/footer_line"
             android:layout_width="0dp"
@@ -111,21 +113,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/footer_line"
             app:layout_constraintVertical_bias="0.483" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:drawableStart="@drawable/facebook_icon"
-            android:drawableLeft="@drawable/facebook_icon"
-            android:drawablePadding="8dp"
-            android:text="Sign in with Facebook"
-            android:textColor="@color/login_form_details"
-
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/footer_line"
-            app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

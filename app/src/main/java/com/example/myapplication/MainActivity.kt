@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
@@ -10,14 +11,18 @@ import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
 import android.widget.Toast
+import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
 import com.example.myapplication.API.loginClient
+import com.example.myapplication.Models.DefaultResponse
 import com.example.myapplication.Models.loginData
 import com.example.myapplication.Models.loginResponse
+import kotlinx.coroutines.delay
+import okhttp3.ResponseBody
 
 
 lateinit var username: EditText
-    lateinit var password: EditText
+lateinit var password: EditText
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,23 +32,30 @@ class MainActivity : AppCompatActivity() {
         username = findViewById(R.id.usernameText)
         password = findViewById(R.id.editTextPassword)
 
+        icon.setOnClickListener {
+            val intent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ykwqXuMPsoc"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.setPackage("com.google.android.youtube")
+            startActivity(intent)
+        }
 
         registerPage.setOnClickListener {
+            println("Before val intent")
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            println("in register page listener")
         }
 
         btn_login.setOnClickListener {
             userLogin()
         }
-
-
     }
 
 
     private fun userLogin() {
-        val intent = Intent(this, OCRActivity::class.java)
-        startActivity(intent)
+
+        var loggedIn: Boolean
 
         val username = usernameText.text.toString()
         val password = editTextPassword.text.toString().trim()
@@ -59,37 +71,57 @@ class MainActivity : AppCompatActivity() {
             editTextPassword.requestFocus()
 
         }
+        if (password.length < 5) {
+            editTextPassword.error = "Password length is insufficient"
+            editTextPassword.requestFocus()
 
-        loginClient.RetrofitClient.instance.loginUser(loginData(username, password))
-            .enqueue(object : Callback<loginResponse> {
-                override fun onFailure(call: Call<loginResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
-                }
+        } else {
 
-                override fun onResponse(
-                    call: Call<loginResponse>,
-                    response: Response<loginResponse>
-                ) {
-                    if (response.code() == 200) {
-                        if (response.body() != null) {
-                            val loginResponse = response.body()
-                            Toast.makeText(applicationContext, loginResponse!!.token, Toast.LENGTH_SHORT)
-                                .show()
-
-                            SharedPrefManager.getInstance(applicationContext).saveAuthToken(loginResponse!!.token)
-                            SharedPrefManager.getInstance(applicationContext).saveID(loginResponse!!.id)
-
-                        }
-                    } else {
-                        Toast.makeText(applicationContext, "error logging in", Toast.LENGTH_SHORT
-                        ).show()
+            val intent = Intent(this, OCRActivity::class.java)
+            loginClient.RetrofitClient.instance.loginUser(loginData(username, password))
+                .enqueue(object : Callback<loginResponse> {
+                    override fun onFailure(call: Call<loginResponse>, t: Throwable) {
+                        Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
                     }
-                }
+
+                    override fun onResponse(
+                        call: Call<loginResponse>,
+                        response: Response<loginResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            if (response.body() != null) {
+                                val loginResponse = response.body()
+
+                                loggedIn = true
+
+                                Toast.makeText(
+                                    applicationContext,
+                                    R.string.loginSuccess,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                println("Token generated: " + loginResponse!!.token)
+
+                                if (loggedIn) {
+                                    startActivity(intent)
+                                    usernameText.setText("")
+                                    editTextPassword.setText("")
+                                }
+
+                                SharedPrefManager.getInstance(applicationContext).saveAuthToken(
+                                    loginResponse.token
+                                )
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                applicationContext, "Error logging in", Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 
             })
     }
-
-
 
     }
 
