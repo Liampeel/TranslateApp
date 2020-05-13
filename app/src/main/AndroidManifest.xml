@@ -21,6 +21,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".RecyclerView.queryDetails"
+            android:label="Details of Submission"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecyclerView.queryList" />
+        </activity>
+        <activity
+            android:name=".RecyclerView.queryList"
+            android:label="History of Translations"/>
+        <activity android:name=".TranslateActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".TranslateActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".GraphActivity"></activity>
