@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
+import com.example.myapplication.TEST.queryList
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
@@ -35,6 +36,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_ocr.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -47,45 +49,7 @@ import java.util.*
 
 class OCRActivity : AppCompatActivity() {
 
-    override fun onDestroy(){
-        super.onDestroy()
-        System.out.println("destroy")
-        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
 
-
-
-        System.out.println(token)
-
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
-
-            ?.enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                    println("No response from server")
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
-                ) {
-                    println("got response ")
-                    if (response.code() == 200) {
-                        println("respomnse code is 201")
-                        if (response.body() != null) {
-                            println("sending translation")
-                            SharedPrefManager.getInstance(this@OCRActivity).clear()
-                            val intent = Intent(this@OCRActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Error", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
-    }
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
@@ -130,6 +94,11 @@ class OCRActivity : AppCompatActivity() {
             val translate = resultEditText.text.toString().trim()
             val intent = Intent(this, TranslateActivity::class.java)
             intent.putExtra("translate", translate)
+            startActivity(intent)
+        }
+
+        recycler.setOnClickListener {
+            val intent = Intent(this, queryList::class.java)
             startActivity(intent)
         }
 
@@ -267,7 +236,7 @@ class OCRActivity : AppCompatActivity() {
     }
 
     private fun requestStoragePermission() {
-        System.out.println("Requesting Storage")
+
         ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE
         )
     }
@@ -289,7 +258,7 @@ class OCRActivity : AppCompatActivity() {
      * request permission to access phones camera
      */
     private fun requestCameraPermission() {
-        System.out.println("Requesting Storage")
+
 
         ActivityCompat.requestPermissions(
             this,
@@ -337,7 +306,7 @@ class OCRActivity : AppCompatActivity() {
                 val writeStorageAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 if (cameraAccepted && writeStorageAccepted) {
-                    System.out.println("Request Camera")
+
                     pickCamera()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
@@ -347,7 +316,7 @@ class OCRActivity : AppCompatActivity() {
                 val writeStorageAccepted = grantResults[0] ==
                         PackageManager.PERMISSION_GRANTED
                 if (writeStorageAccepted) {
-                    System.out.println("Request Image")
+
                     pickImage()
                 } else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()

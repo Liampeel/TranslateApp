@@ -99,5 +99,19 @@ dependencies {
     implementation 'io.github.rybalkinsd:kohttp:0.11.1'
     implementation "com.squareup.okhttp3:okhttp:4.0.0"
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    // Card View
+    def cardview_version = "1.0.0"
+    implementation "androidx.cardview:cardview:$cardview_version"
+
+    // Recyclerview
+    def recyclerview_version = "1.0.0"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    //glide
+    def glide_version = "4.8.0"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
 }

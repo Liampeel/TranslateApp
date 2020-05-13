@@ -216,7 +216,7 @@ class TranslateActivity : AppCompatActivity() {
 
 
     private fun postData(){
-        System.out.println("Post Data method")
+
         val initialText = translatedTv.text.toString().trim()
         val language = language_selector.selectedItem.toString()
         val translatedText = inputToTranslate.text.toString().trim()

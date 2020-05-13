@@ -121,6 +121,7 @@
             android:drawablePadding="8dp"
             android:text="Sign in with Facebook"
             android:textColor="@color/login_form_details"
+
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/footer_line"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
