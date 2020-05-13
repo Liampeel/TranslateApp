@@ -17,7 +17,7 @@ To build the application git clone this repository and ensure that the local.pro
 Run the project in Android Studio and it should build, it may requre that the app is cleaned and rebuilt before it runs
 
 
-If there are still errors then be sure to click `file -> Invalidate Caches / Restart... -> Invalidate and Restart`
+If there are still errors then be sure to click `file -> Invalidate Caches / Restart... -> Invalidate and Restart` on the Android Studio IDE
 
 ## Wiki
 
