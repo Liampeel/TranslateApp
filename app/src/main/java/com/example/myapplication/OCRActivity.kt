@@ -50,6 +50,9 @@ import java.util.*
 class OCRActivity : AppCompatActivity() {
 
 
+    /**
+     * Initialising block of global variables
+     */
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
@@ -148,7 +151,12 @@ class OCRActivity : AppCompatActivity() {
 
 
 
-
+    /**
+     *  Function to handle the log out, we send the authentication token for the user
+     *  to authenticate that this is the specific user we want to log out
+     *
+     *  This is called in a separate thread as we are making a network call.
+     */
     private fun logout() {
         val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
         println(token)
@@ -184,6 +192,9 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Calling the firebase vision API to grab the string from the text
+     */
     @SuppressLint("SetTextI18n")
     fun processImage(v: View) {
         if (ocrImage.drawable != null) {
@@ -228,6 +239,11 @@ class OCRActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Start the CropImage library to allow the user to select camera or photos from gallery
+     * the @param CropImage.activity opens up this screen and is called once camera permissions
+     * have been accepted.
+     */
     private fun imageSelector() {
         if (!checkCameraPermission()) {
             requestCameraPermission()
@@ -235,7 +251,6 @@ class OCRActivity : AppCompatActivity() {
             CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this)
-            println("pickCamera")
         }
     }
 

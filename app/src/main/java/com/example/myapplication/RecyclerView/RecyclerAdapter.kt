@@ -9,6 +9,11 @@ import com.example.myapplication.Models.queryResponse
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.recyclerlayout.view.*
 
+
+/**
+ * RecyclerView for the list of records for a user.
+ * Takes in an Array list and sets the text for the corresponding values
+ */
 class RecyclerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private var items: List<queryResponse> = ArrayList()
@@ -25,6 +30,11 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         )
     }
 
+    /**
+     * Send the position and items to bind method
+     * Set on click listener for each query. The query that is selected, all of the text from that block
+     * will be extracted and sent to details activity
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
@@ -87,7 +97,9 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         val date_created = itemView.dateCreatedRecy
 
 
-
+        /**
+         * Set the text of the textviews to the data
+         */
         fun bind(blogPost: queryResponse){
 
 

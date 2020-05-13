@@ -18,7 +18,10 @@ import retrofit2.Callback
 
 import retrofit2.Response
 
-
+/**
+ * Class to retrieve all queries for a given user, and send the list to the recycler adapter
+ * so the user can then view all of them
+ */
 class queryList : AppCompatActivity() {
 
     private lateinit var queryAdapter: RecyclerAdapter
@@ -35,11 +38,13 @@ class queryList : AppCompatActivity() {
 
     }
 
+    /**
+     * Pass in the token for authentication, and the User ID to the URL Path so get the queries for
+     * given user ID.
+     * Retrieve the JSON array from the server and parse it into separate lists
+     * Then create a singular list and send it to recycler view
+     */
     private fun addDataSet(){
-//        val data = DataSource.createDataSet()
-        println("add data set")
-//        println(data)
-//        queryAdapter.submitList(data)
 
 
         var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
@@ -75,8 +80,7 @@ class queryList : AppCompatActivity() {
 
                             val list = ArrayList<queryResponse>()
 
-//                            val jsonArray = JSONArray(queryJson)
-//                            println(queryJson)
+
                             for(i in 0 until array.size) {
 
 
@@ -125,7 +129,5 @@ class queryList : AppCompatActivity() {
 
     }
 
-//    override fun onItemClick(item: queryResponse, position: Int) {
-//
-//    }
+
 }

@@ -5,7 +5,15 @@ import android.content.SharedPreferences
 import com.example.myapplication.Models.loginResponse
 import com.example.myapplication.R
 
-
+/**
+ * This class saves the user id and the auth token of the current user
+ * Every time a user logs in these values will be saved for the specific user and these values
+ * will then be deleted when the user logs out.
+ *
+ * The token value is required to be sent to the django api for all calls after logging in
+ *
+ * The users id will also be used in api calls to retrieve data about the current user.
+ */
 class SharedPrefManager private constructor(private val mCtx: Context) {
 
         fun saveAuthToken(token: String) {

@@ -6,6 +6,9 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
+/**
+* This interface appends the endpoints to the url for the various functions
+*/
 interface API {
 
     @POST("login/")

@@ -14,6 +14,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+/**
+ * RegisterActivity class
+ *
+ * This class gets the data from the text fields on the register_user.xml page
+ * and sends this data to the django api to register a new account
+ * This class validates the fields before the data is sent to the server to ensure
+ * that the majority of the error checking is done client side before sending off to the server.
+ *
+ */
 class RegisterActivity : AppCompatActivity() {
 
 
@@ -54,11 +64,11 @@ class RegisterActivity : AppCompatActivity() {
                 editTextPassword.requestFocus()
             }
 
-//            if (password.length < 5) {
-//                editTextPassword.error = "Password too short"
-//                editTextPassword.requestFocus()
-//
-//            }
+            if (password.length < 5) {
+                editTextPassword.error = "Password too short"
+                editTextPassword.requestFocus()
+
+            }
 
 
 
@@ -71,6 +81,14 @@ class RegisterActivity : AppCompatActivity() {
                         println("No response from server")
                     }
 
+                    /**
+                     * Here the onResonse function is overeided to retrive the response from the
+                     * server. Validation on the response of the server is performed here.
+                     * If we get a valid response then we return to the MainActivity page.
+                     *
+                     * Otherwise, we display a toast with an error message.
+                     *
+                     */
                     override fun onResponse(call: Call<DefaultResponse>, response: Response<DefaultResponse>
                     ) {
                         println("got response ")

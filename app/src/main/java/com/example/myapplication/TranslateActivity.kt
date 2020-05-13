@@ -63,6 +63,10 @@ class TranslateActivity : AppCompatActivity() {
             detectLang(translate)
         }
 
+        /**
+         *  Set the language codes to an ISO-639-1 format to then be used in the
+         *  default Locale() system class to convert to display language
+         */
         val languageCodes = arrayListOf("en", "fr", "es", "it", "de", "pt", "nl", "pl", "fi", "bg", "hu",
             "ar", "fa", "id", "hi", "ja", "ru", "sv", "tr", "th", "vi")
 
@@ -73,6 +77,10 @@ class TranslateActivity : AppCompatActivity() {
         }
 
 
+        /**
+         * Populate spinner field with languages converted from ISO-639-1 to display language.
+         * Also set the text colour of the spinner to white
+         */
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fullLanguageText)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         language_selector.adapter = adapter
@@ -95,7 +103,10 @@ class TranslateActivity : AppCompatActivity() {
 
 
 
-
+        /**
+         * Logic for the translate button, once clicked we call the translate() function
+         * to open up a new thread for a network call
+         */
 
         translateButton.setOnClickListener {
 
@@ -120,6 +131,10 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * The detectLang() function calls the google detect language api with the text retrived from the
+     * firebase API
+     */
 
     @SuppressLint("SetTextI18n")
     private fun detectLang(output: String){
@@ -142,6 +157,9 @@ class TranslateActivity : AppCompatActivity() {
             }
     }
 
+    /**
+     * Passing API token for the translate API
+     */
     private fun getTranslateService() {
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -188,6 +206,12 @@ class TranslateActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * This posts the data recieved from the translate API, the initial text, chosen langauge and the
+     * outputted text is posted to the django API
+     *
+     * The stored token is sent with the request ot make it authenticated
+     */
     private fun postData(){
         println("Post Data method")
         val initialText = translatedTv.text.toString().trim()

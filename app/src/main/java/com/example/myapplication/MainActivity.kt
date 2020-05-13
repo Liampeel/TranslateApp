@@ -25,6 +25,14 @@ import okhttp3.ResponseBody
 lateinit var username: EditText
 lateinit var password: EditText
 
+
+/**
+ * MainActivity Class
+ *
+ * This activity is used to login the user.
+ * The username and password fields from the activity_main.xml are extracted and sent to the
+ * django api. This class can also access the register user page.
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +61,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Function to log the user in.
+     * Firstly the username and password fields are extracted and stored as strings.
+     * Then, validation checks are performed on the fields to ensure they are in the correct
+     * format to be sent to the api. This ensures that error checking is done on the client
+     * side thus, reducing the risk of sending erroneous data to the server, only to receive
+     * a failure.
+     *
+     * If the server sends back a successful response code, we know that we have been logged into
+     * the server. The server will also send a json response containing the authentication token
+     * and the users id. These will be stored into a cache of memory for the current logged in user
+     * and will be required to perform api calls whilst we are logged in.
+     * If the server informs us that we have logged in then the OCR activity page is loaded.
+     *
+     * Otherwise, we display a token error message.
+     */
     private fun userLogin() {
 
         var loggedIn: Boolean

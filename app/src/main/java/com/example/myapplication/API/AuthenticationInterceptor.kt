@@ -5,6 +5,9 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * authentication interceptor to add the token as a header to the API
+ */
 class AuthenticationInterceptor(var token: String) : Interceptor {
 
 

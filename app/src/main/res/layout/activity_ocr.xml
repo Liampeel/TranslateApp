@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/ocrImageView"
         android:layout_width="250dp"
-        android:layout_height="240dp"
+        android:layout_height="202dp"
         android:layout_centerHorizontal="true" />
 
 
@@ -62,17 +62,17 @@
     <EditText
         android:id="@+id/ocrResult"
         android:layout_width="384dp"
-        android:layout_height="250dp"
+        android:layout_height="194dp"
         android:layout_below="@+id/actionContainer"
         android:layout_marginTop="10dp"
+        android:autofillHints=""
         android:background="@drawable/edit_text_background"
         android:gravity="top"
         android:hint="@string/detected_text_will_appear_here"
         android:inputType="textMultiLine"
         android:padding="10dp"
         android:textColor="@color/login_form_details"
-        android:textColorHint="@color/login_form_details"
-        android:autofillHints="" />
+        android:textColorHint="@color/login_form_details" />
 
 
     <Button

@@ -13,6 +13,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Retrieve the details passed in from the Recycler view and set the values to the text view
+ */
 class queryDetails : AppCompatActivity() {
 
 
@@ -44,6 +47,9 @@ class queryDetails : AppCompatActivity() {
 
     }
 
+    /**
+     * Delete a record by sending the token for authentication, and then the ID of the record
+     */
     private fun deleteRecord() {
         var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
         println("deleteRecord")
