@@ -15,3 +15,4 @@ The django API is hosted onto pythonanywhere.com so that the app can be accessib
 
 To build the application git clone this repository and ensure that the local.properties folder contains the correct path to your local install of Kotlin.
 Run the project in Android Studio and it should build, it may requre that the app is cleaned and rebuilt before it runs.
+If there are still errors then be sure to click file -> Invalidate Caches / Restart... -> Invalidate and Restart 
