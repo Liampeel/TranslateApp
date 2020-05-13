@@ -25,6 +25,9 @@ interface API {
     @GET("users/{doc_id}/")
     fun getQueries(@Path("doc_id") id: String?): Call<queryListResponse>
 
+    @DELETE("queries/{doc_id}/")
+    fun deleteRecord(@Path("doc_id")id: String?): Call<ResponseBody>
+
 
 
 

@@ -21,10 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TEST.queryList"></activity>
-        <activity android:name=".List.ListAdapter" />
-        <activity android:name=".List.DetailsView" />
-        <activity android:name=".List.ListViewActivity" />
+        <activity
+            android:name=".TEST.queryDetails"
+            android:label="Details of Submission"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TEST.queryList" />
+        </activity>
+        <activity
+            android:name=".TEST.queryList"
+            android:label="History of Translations"/>
         <activity android:name=".TranslateActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

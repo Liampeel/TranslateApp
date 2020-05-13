@@ -1,5 +1,6 @@
 package com.example.myapplication.TEST
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -37,9 +38,9 @@ class queryList : AppCompatActivity() {
     }
 
     private fun addDataSet(){
-        val data = DataSource.createDataSet()
+//        val data = DataSource.createDataSet()
         println("data")
-        println(data)
+//        println(data)
 //        queryAdapter.submitList(data)
 
 
@@ -101,14 +102,6 @@ class queryList : AppCompatActivity() {
                             queryAdapter.submitList(list)
                             println("sending list")
 
-
-
-
-
-
-//                            val queryList = queryListResponse.queries
-//                            System.out.println(queryList)
-//                            queryAdapter.submitList(queryList)
                         }
                     } else {
                         System.out.println(response.code())
@@ -121,51 +114,20 @@ class queryList : AppCompatActivity() {
 
         }
     }
-//
-
-
-//        if (id != null) {
-//            RetrofitClient.getInstanceToken(token)?.api?.getQueries(id)?.enqueue(object:
-//                Callback<List<queryListResponse>> {
-//                override fun onFailure(call: Call<List<queryListResponse>>, t: Throwable) {
-//                    Log.d("queryfail", t.message)
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<List<queryListResponse>>,
-//                    response: Response<List<queryListResponse>>
-//                ) {
-//                    if(response.code() == 200){
-//                        if(response.body() != null){
-////                            val queryList: List<queryListResponse> = response.body()!!
-//                            print("query list")
-////                            System.out.println(queryList)
-//    //                            queryAdapter.submitList(queryList)
-//                        }
-//                    } else {
-//                        System.out.println(response.code())
-//                        Toast.makeText(
-//                            applicationContext, "Error", Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            })
-//
-//
-//        }
-//    }
-
-
-
 
 
     private  fun initRecyclerView(){
         recycler_view.apply{
             layoutManager = LinearLayoutManager(this@queryList)
             queryAdapter = RecyclerAdapter()
+            setBackgroundColor(Color.BLUE)
             adapter = queryAdapter
         }
 
 
     }
+
+//    override fun onItemClick(item: queryResponse, position: Int) {
+//
+//    }
 }

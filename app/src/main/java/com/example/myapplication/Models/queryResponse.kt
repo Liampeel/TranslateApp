@@ -17,4 +17,5 @@ data class queryResponse(
                 "owner='$owner', id='$id')"
 
     }
+
 }
