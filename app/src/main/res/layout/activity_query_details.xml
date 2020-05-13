@@ -1,80 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
 
     <TextView
         android:id="@+id/initialView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="173dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginRight="101dp"
+        android:layout_marginTop="156dp"
         android:text="TextView"
+        android:textSize="18dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/login_form_details"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginRight="124dp"
+        android:layout_marginTop="40dp"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/login_form_details"
+        android:layout_below="@+id/transView"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/transView"
+        app:layout_constraintTop_toBottomOf="@+id/transView" />
 
     <TextView
         android:id="@+id/transView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="228dp"
-        android:layout_marginLeft="228dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
+        android:textSize="18dp"
+        android:layout_marginEnd="1dp"
+        android:textColor="@color/login_form_details"
+        android:layout_marginRight="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_below="@+id/langView"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/langView"
         app:layout_constraintTop_toBottomOf="@+id/langView" />
 
     <TextView
         android:id="@+id/langView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="228dp"
-        android:layout_marginLeft="228dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="40dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="18dp"
+        android:textColor="@color/login_form_details"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/initialView"
+        app:layout_constraintStart_toStartOf="@+id/initialView"
         app:layout_constraintTop_toBottomOf="@+id/initialView" />
 
     <TextView
         android:id="@+id/idView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="155dp"
-        android:layout_marginLeft="155dp"
-        android:layout_marginTop="405dp"
-        android:layout_marginEnd="197dp"
-        android:layout_marginRight="197dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:textSize="18dp"
+        android:layout_marginTop="40dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/login_form_details"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dateView"
+        app:layout_constraintStart_toStartOf="@+id/dateView"
+        app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
     <Button
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="166dp"
-        android:layout_marginLeft="166dp"
-        android:layout_marginEnd="157dp"
-        android:layout_marginRight="157dp"
+        android:layout_width="123dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/idView"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="131dp"
-        android:text="Button"
+        android:background="@drawable/button_background"
+        android:text="Delete Record"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

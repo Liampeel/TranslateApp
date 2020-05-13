@@ -103,20 +103,20 @@ class OCRActivity : AppCompatActivity() {
         }
 
         logoutButton = findViewById(R.id.logoutButton)
-        recycler.setOnClickListener {
+        gotorecords.setOnClickListener {
             val intent = Intent(this, queryList::class.java)
             startActivity(intent)
         }
-
+        logoutButton.setOnClickListener {
+            logout()
+        }
     }
 
 
 
 
 
-        logoutButton.setOnClickListener {
-            logout()
-        }
+
 
 
 
@@ -272,7 +272,7 @@ class OCRActivity : AppCompatActivity() {
             this,
             storagePermission[0]
         ) == PackageManager.PERMISSION_GRANTED
-        return result1
+
 
     }
 

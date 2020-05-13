@@ -37,7 +37,7 @@ class queryList : AppCompatActivity() {
 
     private fun addDataSet(){
 //        val data = DataSource.createDataSet()
-        println("data")
+        println("add data set")
 //        println(data)
 //        queryAdapter.submitList(data)
 
