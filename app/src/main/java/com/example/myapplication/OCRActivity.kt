@@ -6,19 +6,25 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import com.example.myapplication.RecyclerView.queryList
 import androidx.fragment.app.FragmentActivity
 import com.example.myapplication.API.RetrofitClient
 import com.example.myapplication.API.SharedPrefManager
@@ -38,55 +44,22 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.lang.Exception
+import java.util.*
 
 
 class OCRActivity : AppCompatActivity() {
 
-    override fun onDestroy(){
-        super.onDestroy()
-        println("Destroy")
-        val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
 
-        println(token)
-
-        RetrofitClient.getInstanceToken(token)?.api?.logout()
-
-            ?.enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                    println("No response from server")
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
-                ) {
-                    println("got response ")
-                    if (response.code() == 200) {
-                        println("Response code is: ${response.code()}")
-                        if (response.body() != null) {
-                            println("sending translation")
-                            SharedPrefManager.getInstance(this@OCRActivity).clear()
-                            val intent = Intent(this@OCRActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Error", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
-    }
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
     lateinit var translateButton: Button
+    lateinit var image_uri: Uri
     private val IMAGE_PICK_GALLERY_CODE = 1000
     private val IMAGE_PICK_CAMERA_CODE = 1001
     private val CAMERA_REQUEST_CODE = 200
     private val STORAGE_REQUEST_CODE = 400
+    var PERMISSION_REQ_CODE: Int = 100
     var isPermissionsGranted: Boolean = false
     var permissions: Array<String> = arrayOf(WRITE_EXTERNAL_STORAGE, CAMERA)
     lateinit var logoutButton: Button
@@ -130,12 +103,24 @@ class OCRActivity : AppCompatActivity() {
         }
 
         logoutButton = findViewById(R.id.logoutButton)
+        recycler.setOnClickListener {
+            val intent = Intent(this, queryList::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+
+
+
 
         logoutButton.setOnClickListener {
             logout()
         }
 
-    }
+
+
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -257,7 +242,7 @@ class OCRActivity : AppCompatActivity() {
 
 
 
-    private fun pickImage() {
+    fun pickImage() {
         if (!checkStoragePermission()) {
             requestStoragePermission()
         } else {
@@ -273,7 +258,7 @@ class OCRActivity : AppCompatActivity() {
     }
 
     private fun requestStoragePermission() {
-        println("Requesting Storage")
+
         ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE
         )
     }
@@ -287,6 +272,7 @@ class OCRActivity : AppCompatActivity() {
             this,
             storagePermission[0]
         ) == PackageManager.PERMISSION_GRANTED
+        return result1
 
     }
 
@@ -294,7 +280,7 @@ class OCRActivity : AppCompatActivity() {
      * request permission to access phones camera
      */
     private fun requestCameraPermission() {
-        println("Requesting Storage")
+
 
         ActivityCompat.requestPermissions(
             this,
@@ -360,6 +346,7 @@ class OCRActivity : AppCompatActivity() {
             }
         }
     }
+
 }
 
 

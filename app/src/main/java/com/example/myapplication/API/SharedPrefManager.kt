@@ -15,13 +15,25 @@ class SharedPrefManager private constructor(private val mCtx: Context) {
             editor.apply()
     }
 
-    /**
-     * Function to fetch auth token
-     */
+    fun saveID(id: String) {
+        val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("id", id)
+        editor.apply()
+    }
+
+    fun getID(): String? {
+        val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getString("id", null)
+    }
+
+
     fun fetchAuthToken(): String? {
         val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getString("token", null)
     }
+
+
 
     fun clear() {
         val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)

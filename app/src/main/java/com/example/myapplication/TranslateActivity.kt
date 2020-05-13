@@ -28,6 +28,7 @@ import com.google.cloud.translate.TranslateOptions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.neovisionaries.i18n.LanguageCode
 import kotlinx.android.synthetic.main.activity_translate.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +42,7 @@ class TranslateActivity : AppCompatActivity() {
     lateinit var input: TextView
     lateinit var langDetected: TextView
     lateinit var postQuery: Button
+    lateinit var logoutButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,7 @@ class TranslateActivity : AppCompatActivity() {
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
         postQuery = findViewById(R.id.postQuery)
+        logoutButton = findViewById(R.id.logoutButton)
 
 
         inputToTranslate.movementMethod = ScrollingMovementMethod()
@@ -89,10 +92,17 @@ class TranslateActivity : AppCompatActivity() {
             postData()
         }
 
+        logoutButton.setOnClickListener {
+            logout()
+        }
+
+
+
 
         translateButton.setOnClickListener {
 
             val chosenLanguage = LanguageCode.findByName(language_selector.selectedItem.toString())[0].name
+
             if(chosenLanguage.isEmpty()) {
                 language_selector.prompt = "Field is empty"
                 language_selector.requestFocus()
@@ -221,7 +231,3 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     }
-
-private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
-
-}
