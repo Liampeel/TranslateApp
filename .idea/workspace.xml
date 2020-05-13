@@ -16,10 +16,12 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84e24579-8ab1-4604-8746-6e81d131bb40" name="Default Changelist" comment="Constraints for horizontal and tablet">
+    <list default="true" id="84e24579-8ab1-4604-8746-6e81d131bb40" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/TranslateActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/TranslateActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -640,7 +642,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589383039357</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Committing so I can merge">
+      <created>1589396251242</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1589396251242</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TodoView">
@@ -683,7 +692,6 @@
     <MESSAGE value="UI amendments" />
     <MESSAGE value="Fixed camera selection for physical devices" />
     <MESSAGE value="Deleted bad languages and UI updates to EditText" />
-    <MESSAGE value="Committing so I can merge" />
     <MESSAGE value="Moved log out button and logic, plus UI changes" />
     <MESSAGE value="Fixed it so that user must log in to access OCR" />
     <MESSAGE value="Cleared input text when logged-in" />
@@ -694,7 +702,8 @@
     <MESSAGE value="Small UI changes" />
     <MESSAGE value="Very small UI change" />
     <MESSAGE value="Constraints for horizontal and tablet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Constraints for horizontal and tablet" />
+    <MESSAGE value="Committing so I can merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Committing so I can merge" />
   </component>
   <component name="masterDetails">
     <states>
