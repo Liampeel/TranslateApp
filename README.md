@@ -14,5 +14,11 @@ Once data has been posted a user can view a graph of the languages that were pos
 The django API is hosted onto pythonanywhere.com so that the app can be accessible without having to run the server on the computer via localhost.
 
 To build the application git clone this repository and ensure that the local.properties folder contains the correct path to your local install of Kotlin.
-Run the project in Android Studio and it should build, it may requre that the app is cleaned and rebuilt before it runs.
-If there are still errors then be sure to click file -> Invalidate Caches / Restart... -> Invalidate and Restart 
+Run the project in Android Studio and it should build, it may requre that the app is cleaned and rebuilt before it runs
+
+
+If there are still errors then be sure to click `file -> Invalidate Caches / Restart... -> Invalidate and Restart`
+
+## Wiki
+
+Check the wiki option on the side view of the project overview for information on each page.
