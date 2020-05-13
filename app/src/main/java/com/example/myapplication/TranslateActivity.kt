@@ -69,7 +69,6 @@ class TranslateActivity : AppCompatActivity() {
             fullLanguageText.add(Locale(lan).displayLanguage)
         }
 
-
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, fullLanguageText)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         language_selector.adapter = adapter
@@ -132,6 +131,7 @@ class TranslateActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 e.printStackTrace()
             }
+
     }
 
     private fun getTranslateService() {
