@@ -20,5 +20,6 @@ interface API {
     @POST("logout/")
     fun logout(): Call<ResponseBody>
 
-
+    @GET("languages/")
+    fun getQueries(): Call<languageResponse>
 }

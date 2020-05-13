@@ -60,7 +60,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/ocrResultEt"
+        android:id="@+id/ocrResult"
         android:layout_width="384dp"
         android:layout_height="250dp"
         android:layout_below="@+id/actionContainer"
@@ -79,16 +79,33 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ocrResult"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="right"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="620dp"
-        android:layout_marginRight="138dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_background"
         android:text="@string/logout"
         android:textColor="@color/colorAccent"
         tools:ignore="RtlHardcoded" />
 
-
+    <Button
+        android:id="@+id/gotograph"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ocrResult"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="21dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:text="View Graph"
+        android:textColor="@color/login_form_details"
+        tools:ignore="RtlHardcoded" />
 </RelativeLayout>

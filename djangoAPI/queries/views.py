@@ -134,6 +134,54 @@ def user_login(request):
         response = {"response": "Invalid"}
         return JsonResponse(response, status=400)
 
+@api_view(['GET'])
+def queryTest(request):
+    queryset = Query.objects.all()
+    #print(queryset)
+    array = []
+    output_dict = {}
+
+    for query in queryset:
+        languages = query.language
+        dates = query.date_created
+        owners = query.owner
+        inittext = query.initialText
+        translated = query.translatedText
+
+        record = {"owner":str(query.owner), "date_created":str(dates), "language":languages,"initialText":inittext,"translatedText":translated}
+        array.append(record)
+
+    output_dict["listofqueries"] = array
+    return JsonResponse(output_dict)
+
+@api_view(['GET'])
+def get_languages(request):
+    queryset = Query.objects.all()
+    #print(queryset)
+    array = []
+    array2 = []
+    output_dict = {}
+
+    for abc in queryset:
+        languages = abc.language
+        #languages = query.language
+        record = {"language":languages}
+        array.append(record)
+        array2.append(languages)
+    record2 = {}
+    array3 = []
+    array4 = []
+    array4 = list(set(array2))
+    print(array4)
+    for abe in array4:
+        record2 = {abe:array2.count(abe)}
+        array3.append(record2)
+    print(array3)
+    output_dict["listoflangs"] = array3
+    return JsonResponse(output_dict)
+
+
+
 
 class QueryList(generics.ListCreateAPIView):
     queryset = Query.objects.all()
