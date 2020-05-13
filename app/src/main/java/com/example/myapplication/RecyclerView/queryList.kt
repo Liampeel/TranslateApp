@@ -88,7 +88,7 @@ class queryList : AppCompatActivity() {
                                 owner.add(array[i].owner)
                             }
 
-                            for(i in 0 until array.size) {
+                            for(i in array.indices) {
                                 list.add(queryResponse(initialText = initialText[i],
                                     language = language[i],
                                     translatedText = translatedText[i],
@@ -118,7 +118,7 @@ class queryList : AppCompatActivity() {
         recycler_view.apply{
             layoutManager = LinearLayoutManager(this@queryList)
             queryAdapter = RecyclerAdapter()
-            setBackgroundColor(Color.BLUE)
+            setBackgroundColor(R.drawable.bg_login)
             adapter = queryAdapter
         }
 
