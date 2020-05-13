@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.API.RetrofitClient
@@ -20,7 +19,6 @@ import retrofit2.Response
 @Suppress("DEPRECATION")
 class GraphActivity : AppCompatActivity() {
 
-    private val url = "http://kieronhushon.pythonanywhere.com/languages/"
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -31,7 +29,7 @@ class GraphActivity : AppCompatActivity() {
 
 
     private fun getLanguages(){
-        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+        val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
         RetrofitClient.getInstanceToken(token)?.api?.getQueries()?.enqueue(object: Callback<languageResponse>{
             override fun onFailure(call: Call<languageResponse>, t: Throwable) {
                 println(t.message)
@@ -44,7 +42,7 @@ class GraphActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val body = response.body()
 
-                    val arrayOfOccurence = mutableListOf<Int>()
+                    val arrayOfOccurrence = mutableListOf<Int>()
                     val arrayOfLanguages = mutableListOf<String>()
 
                     if (body != null) {
@@ -55,26 +53,22 @@ class GraphActivity : AppCompatActivity() {
                             arrayOfLanguages.add(language)
 
                             val num = format.replace("[^0-9]".toRegex(), "")
-                            arrayOfOccurence.add(num.toInt())
-                        }
-                        for(i in 0 until arrayOfLanguages.size) {
-                            println(arrayOfLanguages[i])
-                            println(arrayOfOccurence[i])
+                            arrayOfOccurrence.add(num.toInt())
                         }
 
-                        setBarChart(arrayOfOccurence, arrayOfLanguages)
+                        for(i in 0 until arrayOfLanguages.size) {
+                            println(arrayOfLanguages[i])
+                            println(arrayOfOccurrence[i])
+                        }
+
+                        setBarChart(arrayOfOccurrence, arrayOfLanguages)
                     }
 
                }    else {
-                    println("response not succesfull")
+                    println("Response not successful, code is: " + response.code())
                   }
 
             }
-
-
-
-
-
         })
 
     }
@@ -90,25 +84,18 @@ class GraphActivity : AppCompatActivity() {
         }
 
         val barDataSet = BarDataSet(entries, " ")
-
-
-        val xAxis: XAxis = bargraph.getXAxis()
+        val xAxis: XAxis = bargraph.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
 
         val formatter: ValueFormatter =
             object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return languageList.get(value.toInt() - 1)
+                    return languageList[value.toInt() - 1]
                 }
             }
 
-        xAxis.granularity = 1f // minimum axis-step (interval) is 1
-
+        xAxis.granularity = 1f
         xAxis.valueFormatter = formatter
-
-
-       // xAxis.valueFormatter = IAxisValueFormatter() { value, axis -> labels.get(value.toInt()) } as ValueFormatter?
-
 
         val data = BarData(barDataSet)
         bargraph.data = data // set the data and list of lables into chart
@@ -118,7 +105,7 @@ class GraphActivity : AppCompatActivity() {
 //        bargraph.axisLeft.textColor = R.color.login_form_details; // left y-axis
 //        bargraph.xAxis.textColor = R.color.login_form_details;
 //        bargraph.legend.textColor = R.color.login_form_details;
-        bargraph.animateY(5000)
+        bargraph.animateY(3000)
     }
 
 }

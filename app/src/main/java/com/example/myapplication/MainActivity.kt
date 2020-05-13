@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         val token = ("Token " + SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
 
         println(token)
-
         RetrofitClient.getInstanceToken(token)?.api?.logout()
 
             ?.enqueue(object : Callback<ResponseBody> {

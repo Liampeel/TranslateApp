@@ -75,7 +75,7 @@ class TranslateActivity : AppCompatActivity() {
         language_selector.adapter = adapter
 
 
-        language_selector.background.setColorFilter(resources.getColor(R.color.login_form_details), PorterDuff.Mode.SRC_ATOP);
+        language_selector.background.setColorFilter(resources.getColor(R.color.login_form_details), PorterDuff.Mode.SRC_ATOP)
 
         language_selector.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View,
