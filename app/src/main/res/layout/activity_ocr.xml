@@ -60,7 +60,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/ocrResultEt"
+        android:id="@+id/ocrResult"
         android:layout_width="384dp"
         android:layout_height="250dp"
         android:layout_below="@+id/actionContainer"

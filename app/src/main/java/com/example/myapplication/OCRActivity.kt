@@ -43,14 +43,12 @@ class OCRActivity : AppCompatActivity() {
 
     override fun onDestroy(){
         super.onDestroy()
-        System.out.println("destroy")
-        var token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
+        println("Destroy")
+        val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
 
+        println(token)
 
-
-        System.out.println(token)
-
-        com.example.myapplication.API.RetrofitClient.getInstanceToken(token)?.api?.logout()
+        RetrofitClient.getInstanceToken(token)?.api?.logout()
 
             ?.enqueue(object: Callback<ResponseBody> {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -62,7 +60,7 @@ class OCRActivity : AppCompatActivity() {
                 ) {
                     println("got response ")
                     if (response.code() == 200) {
-                        println("respomnse code is 201")
+                        println("Response code is: ${response.code()}")
                         if (response.body() != null) {
                             println("sending translation")
                             SharedPrefManager.getInstance(this@OCRActivity).clear()
@@ -102,7 +100,7 @@ class OCRActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ocr)
 
-        resultEditText = findViewById(R.id.ocrResultEt)
+        resultEditText = findViewById(R.id.ocrResult)
         ocrImage = findViewById(R.id.ocrImageView)
         translateButton = findViewById(R.id.goToTranslate)
 
@@ -175,13 +173,13 @@ class OCRActivity : AppCompatActivity() {
                 ) {
                     println("got response ")
                     if (response.code() == 200) {
-                        println("respomnse code is 201")
+                        println("Respose code is ${response.code()}")
                         if (response.body() != null) {
                             println("sending translation")
                             SharedPrefManager.getInstance(this@OCRActivity).clear()
                             val intent = Intent(this@OCRActivity, MainActivity::class.java)
                             startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
+                            Toast.makeText(applicationContext, "Logged out", Toast.LENGTH_SHORT)
                                 .show()
                         }
                     } else {
@@ -193,7 +191,6 @@ class OCRActivity : AppCompatActivity() {
 
             })
     }
-
 
 
     @SuppressLint("SetTextI18n")

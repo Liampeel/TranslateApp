@@ -17,9 +17,13 @@
   <component name="ChangeListManager">
     <list default="true" id="84e24579-8ab1-4604-8746-6e81d131bb40" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/myapplication/OCRActivityTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/example/myapplication/OCRActivityTests.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/OCRActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/OCRActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_ocr.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_ocr.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +100,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android Instrumented Tests.Tests in 'com.example.myapplication'">
     <configuration name="ExampleUnitTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <module name="app" />
       <extension name="coverage">
@@ -584,7 +588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589301245210</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Cleared input text when logged-in">
+      <created>1589301830825</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1589301830825</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -613,7 +624,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../../../../.." />
     </ignored-roots>
-    <MESSAGE value="Initial Commit of UI from CWK1" />
     <MESSAGE value="Added new 'home' screen from button" />
     <MESSAGE value="Was an error in previous build that has now gone" />
     <MESSAGE value="progress with GET request from API" />
@@ -638,7 +648,8 @@
     <MESSAGE value="Committing so I can merge" />
     <MESSAGE value="Moved log out button and logic, plus UI changes" />
     <MESSAGE value="Fixed it so that user must log in to access OCR" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed it so that user must log in to access OCR" />
+    <MESSAGE value="Cleared input text when logged-in" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleared input text when logged-in" />
   </component>
   <component name="masterDetails">
     <states>
