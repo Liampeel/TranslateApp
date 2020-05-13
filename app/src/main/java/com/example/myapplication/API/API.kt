@@ -20,6 +20,15 @@ interface API {
     @POST("logout/")
     fun logout(): Call<ResponseBody>
 
+    @GET("users/{doc_id}/")
+    fun getQueries(@Path("doc_id") id: String?): Call<queryListResponse>
+
+    @DELETE("queries/{doc_id}/")
+    fun deleteRecord(@Path("doc_id")id: String?): Call<ResponseBody>
+
+
+
+
     @GET("languages/")
     fun getQueries(): Call<languageResponse>
 }
