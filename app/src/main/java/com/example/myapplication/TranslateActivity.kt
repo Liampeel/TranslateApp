@@ -42,7 +42,7 @@ class TranslateActivity : AppCompatActivity() {
     lateinit var input: TextView
     lateinit var langDetected: TextView
     lateinit var postQuery: Button
-    lateinit var logoutButton: Button
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class TranslateActivity : AppCompatActivity() {
         input = findViewById(R.id.inputToTranslate)
         langDetected = findViewById(R.id.langDetected)
         postQuery = findViewById(R.id.postQuery)
-        logoutButton = findViewById(R.id.logoutButton)
+
 
 
         inputToTranslate.movementMethod = ScrollingMovementMethod()
@@ -92,9 +92,7 @@ class TranslateActivity : AppCompatActivity() {
             postData()
         }
 
-        logoutButton.setOnClickListener {
-            logout()
-        }
+
 
 
 
