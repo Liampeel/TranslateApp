@@ -1,7 +1,7 @@
 package com.example.myapplication.Models
 
+import com.google.gson.JsonArray
 import org.json.JSONArray
 
-data class languageResponse (val listoflangs: List<country>)
+data class languageResponse (val listoflangs: JsonArray)
 
-data class country(val English: String)

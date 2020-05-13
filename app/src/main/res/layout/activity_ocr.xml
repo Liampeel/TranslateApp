@@ -99,5 +99,5 @@
         android:text="@string/select_image"
         android:textColor="@color/login_form_details"
         tools:ignore="RtlHardcoded"
-        android:layout_below="@id/detected_language"/>
+       />
 </RelativeLayout>
