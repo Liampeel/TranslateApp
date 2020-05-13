@@ -32,6 +32,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="24dp" />
 
+        <ImageView
+            android:id="@+id/iconRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            app:srcCompat="@drawable/ic_android_white_24dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+            app:layout_constraintStart_toStartOf="@+id/guideline_left"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO"
+            tools:ignore="VectorDrawableCompat" />
+
 
         <EditText
             android:id="@+id/editTextEmail2"

@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             if (password.isEmpty()) {
-                editTextPassword.error = "password required"
+                editTextPassword.error = "Password required"
                 editTextPassword.requestFocus()
 
             }
@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                 editTextPassword.requestFocus()
             }
 
-//            if (password.length < 7) {
+//            if (password.length < 5) {
 //                editTextPassword.error = "Password too short"
 //                editTextPassword.requestFocus()
 //

@@ -46,13 +46,11 @@
             tools:ignore="VectorDrawableCompat" />
 
 
-
-
         <EditText
             android:id="@+id/usernameText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="204dp"
+            android:layout_marginTop="236dp"
             android:background="@drawable/edit_text"
             android:hint="Username"
             android:inputType="textEmailAddress"

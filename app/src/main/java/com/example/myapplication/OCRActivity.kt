@@ -42,43 +42,6 @@ import java.lang.Exception
 
 class OCRActivity : AppCompatActivity() {
 
-    override fun onDestroy(){
-        super.onDestroy()
-        println("Destroy")
-        val token = ("Token "+ SharedPrefManager.getInstance(applicationContext).fetchAuthToken())
-
-        println(token)
-
-        RetrofitClient.getInstanceToken(token)?.api?.logout()
-
-            ?.enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
-                    println("No response from server")
-                }
-
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
-                ) {
-                    println("got response ")
-                    if (response.code() == 200) {
-                        println("Response code is: ${response.code()}")
-                        if (response.body() != null) {
-                            println("sending translation")
-                            SharedPrefManager.getInstance(this@OCRActivity).clear()
-                            val intent = Intent(this@OCRActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            applicationContext, "Error", Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-            })
-    }
 
     lateinit var ocrImage: ImageView
     lateinit var resultEditText: EditText
