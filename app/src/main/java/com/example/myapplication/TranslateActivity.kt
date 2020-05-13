@@ -221,7 +221,3 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     }
-
-private fun <T> Call<T>.enqueue(callback: Callback<T>, function: () -> Unit) {
-
-}
