@@ -5,7 +5,7 @@
 
 This application allows users to take a photo of text and translate it into a different language. They can save these translated texts into their account which is handled via a Django API. This API is also used to
 validate and handle queries made by the user. Once a user registers an account and logs in they will be issued a unique session token which communicates with the server to allow users to post data on their specific 
-account. When data has been posted, a user can view a graph of the languages that were posted and their occurence from the home page of the app. Users can also see a list of texts they have posted from their individual account. 
+account. When data has been posted, a user can view a graph of the languages that were posted and their occurence from the home page of the app. Users can also see a list of texts they have posted from their individual account and delete any of these texts.
 
 ## Build
 
