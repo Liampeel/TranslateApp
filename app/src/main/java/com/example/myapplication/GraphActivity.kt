@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.API.RetrofitClient
@@ -12,6 +13,8 @@ import com.github.mikephil.charting.data.BarEntry
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_graph.*
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_translate.*
+import okhttp3.internal.lockAndWaitNanos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,13 +54,13 @@ class GraphActivity : AppCompatActivity() {
                     if (body != null) {
                         for(i in 0 until body.listoflangs.size()) {
                             val format: String = body.listoflangs[i].toString().replace("{\"","").replace("\":"," ").replace("}","")
-
                             val language = format.replace("[^A-Za-z]".toRegex(), "")
                             arrayOfLanguages.add(language)
 
                             val num = format.replace("[^0-9]".toRegex(), "")
                             arrayOfOccurence.add(num.toInt())
                         }
+
                         for(i in 0 until arrayOfLanguages.size) {
                             println(arrayOfLanguages[i])
                             println(arrayOfOccurence[i])
@@ -82,27 +85,12 @@ class GraphActivity : AppCompatActivity() {
 
     private fun setBarChart(numberList : List<Int>, languageList : List<String>) {
         val entries = ArrayList<BarEntry>()
-//        entries.add(BarEntry(10f, 0.toFloat()))
-//        entries.add(BarEntry(2f, 1.toFloat()))
-//        entries.add(BarEntry(5f, 2.toFloat()))
-//        entries.add(BarEntry(20f, 3.toFloat()))
-//        entries.add(BarEntry(15f, 4.toFloat()))
-//        entries.add(BarEntry(19f, 5.toFloat()))
-
-
         for(element in numberList) {
-            entries.add(BarEntry(10f, element.toFloat()))
+            entries.add(BarEntry(element.toFloat(), element.toFloat()))
         }
 
         val barDataSet = BarDataSet(entries, "Cells")
 
-        val labels = ArrayList<String>()
-        labels.add("18-Jan")
-        labels.add("19-Jan")
-        labels.add("20-Jan")
-        labels.add("21-Jan")
-        labels.add("22-Jan")
-        labels.add("23-Jan")
 
         val xAxis: XAxis = bargraph.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -110,6 +98,7 @@ class GraphActivity : AppCompatActivity() {
 
 
        // xAxis.valueFormatter = IAxisValueFormatter() { value, axis -> labels.get(value.toInt()) } as ValueFormatter?
+        val languageBarData = ArrayList<BarEntry>()
 
 
         val data = BarData(barDataSet)
