@@ -90,5 +90,14 @@
         android:textColor="@color/colorAccent"
         tools:ignore="RtlHardcoded" />
 
-
+    <Button
+        android:id="@+id/gotograph"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:text="@string/select_image"
+        android:textColor="@color/login_form_details"
+        tools:ignore="RtlHardcoded"
+        android:layout_below="@id/detected_language"/>
 </RelativeLayout>
