@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.API.RetrofitClient
@@ -9,9 +10,8 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.google.gson.Gson
+import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_graph.*
-import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +26,7 @@ class GraphActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graph)
         getLanguages()
-        setBarChart()
+
     }
 
 
@@ -81,31 +81,30 @@ class GraphActivity : AppCompatActivity() {
 
     private fun setBarChart(numberList : List<Int>, languageList : List<String>) {
         val entries = ArrayList<BarEntry>()
-//        entries.add(BarEntry(10f, 0.toFloat()))
-//        entries.add(BarEntry(2f, 1.toFloat()))
-//        entries.add(BarEntry(5f, 2.toFloat()))
-//        entries.add(BarEntry(20f, 3.toFloat()))
-//        entries.add(BarEntry(15f, 4.toFloat()))
-//        entries.add(BarEntry(19f, 5.toFloat()))
 
-
+        var count = 1
         for(element in numberList) {
-            entries.add(BarEntry(10f, element.toFloat()))
+            println(element)
+            entries.add(BarEntry(count.toFloat(), element.toFloat()))
+            count++
         }
 
-        val barDataSet = BarDataSet(entries, "Cells")
+        val barDataSet = BarDataSet(entries, " ")
 
-        val labels = ArrayList<String>()
-        labels.add("18-Jan")
-        labels.add("19-Jan")
-        labels.add("20-Jan")
-        labels.add("21-Jan")
-        labels.add("22-Jan")
-        labels.add("23-Jan")
 
-        val xAxis: XAxis = bargraph.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
+        val xAxis: XAxis = bargraph.getXAxis()
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+
+        val formatter: ValueFormatter =
+            object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return languageList.get(value.toInt() - 1)
+                }
+            }
+
+        xAxis.granularity = 1f // minimum axis-step (interval) is 1
+
+        xAxis.valueFormatter = formatter
 
 
        // xAxis.valueFormatter = IAxisValueFormatter() { value, axis -> labels.get(value.toInt()) } as ValueFormatter?
@@ -113,10 +112,12 @@ class GraphActivity : AppCompatActivity() {
 
         val data = BarData(barDataSet)
         bargraph.data = data // set the data and list of lables into chart
-
-        bargraph.description.text = "Languages"  // set the description
-        barDataSet.color = resources.getColor(R.color.colorAccent)
-
+        barDataSet.color = resources.getColor(R.color.colorPrimary)
+        bargraph.setFitBars(true)
+        bargraph.description.text = " "
+//        bargraph.axisLeft.textColor = R.color.login_form_details; // left y-axis
+//        bargraph.xAxis.textColor = R.color.login_form_details;
+//        bargraph.legend.textColor = R.color.login_form_details;
         bargraph.animateY(5000)
     }
 
