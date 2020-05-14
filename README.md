@@ -21,3 +21,5 @@ If there are still errors then be sure to click `file -> Invalidate Caches / Res
 ## Wiki
 
 Check the wiki option on the side view of the project overview for information on each page.
+
+The video demonstration of the project can be found here: **(https://youtu.be/WW5xEWZGiJI)**
